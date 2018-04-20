@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="../../build/Common.Sources.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <RootNamespace>AppCore.Diagnostics</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="contentFiles\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+  </ItemGroup>
+
+</Project>
