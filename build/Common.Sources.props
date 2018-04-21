@@ -1,25 +1,11 @@
 <Project>
+  <Import Project="./Common.props" />
+
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <Authors>Christian Prochnow</Authors>
-    <Company>The AppCore project</Company>
-    <Product>AppCore Shared Sources</Product>
-    <Copyright>Copyright (c) 2018 the AppCore project</Copyright>
-    <PackageLicenseUrl>https://github.com/AppCoreNet/Shared/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/AppCoreNet/Shared</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <ContentTargetFolders>.</ContentTargetFolders>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove="**/*.DotSettings" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-  </ItemGroup>
-  
+
 </Project>
