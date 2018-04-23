@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <RootNamespace>AppCore</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="contentFiles\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="AppCore.TypeHelpers.Sources.csproj.DotSettings" />
+  </ItemGroup>
+
+</Project>

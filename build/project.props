@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Christian Prochnow</Authors>
+    <Company>The AppCore project</Company>
+    <Product>AppCore Shared Sources</Product>
+    <Copyright>Copyright (c) 2018 the AppCore project</Copyright>
+    <PackageLicenseUrl>https://github.com/AppCoreNet/Shared/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/AppCoreNet/Shared</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+</Project>
