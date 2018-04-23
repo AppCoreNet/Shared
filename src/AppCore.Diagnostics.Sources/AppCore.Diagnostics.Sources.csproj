@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../build/Common.Sources.props" />
-
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>AppCore.Diagnostics</RootNamespace>
@@ -9,6 +7,10 @@
 
   <ItemGroup>
     <Content Include="contentFiles\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="AppCore.Diagnostics.Sources.csproj.DotSettings" />
   </ItemGroup>
 
 </Project>
