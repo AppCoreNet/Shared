@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
@@ -89,14 +90,47 @@ namespace AppCore.Diagnostics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void OfType(Type type, Type expectedType, [InvokerParameterName] [NotNull] string paramName)
             {
-                if (!expectedType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
-                    throw new ArgumentException($"Argument '{paramName}' must be of type '{expectedType}'.");
+                if (!IsAssignableTo(type, expectedType))
+                    throw new ArgumentException($"Argument '{paramName}' is of type '{type}' but expected to be of type '{expectedType}'.", paramName);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void OfType<TExpected>(Type type, [InvokerParameterName] [NotNull] string paramName)
             {
                 OfType(type, typeof(TExpected), paramName);
+            }
+
+            private static bool IsAssignableTo(Type givenType, Type genericType)
+            {
+                if (givenType == null || genericType == null)
+                {
+                    return false;
+                }
+
+                if (genericType.GetTypeInfo()
+                               .IsAssignableFrom(givenType.GetTypeInfo()))
+                    return true;
+
+                return givenType == genericType
+                       || MapsToGenericTypeDefinition(givenType, genericType)
+                       || HasInterfaceThatMapsToGenericTypeDefinition(givenType, genericType)
+                       || IsAssignableTo(givenType.GetTypeInfo().BaseType, genericType);
+            }
+
+            private static bool HasInterfaceThatMapsToGenericTypeDefinition(Type givenType, Type genericType)
+            {
+                return givenType
+                       .GetTypeInfo()
+                       .ImplementedInterfaces
+                       .Where(it => it.GetTypeInfo().IsGenericType)
+                       .Any(it => it.GetGenericTypeDefinition() == genericType);
+            }
+
+            private static bool MapsToGenericTypeDefinition(Type givenType, Type genericType)
+            {
+                return genericType.GetTypeInfo().IsGenericTypeDefinition
+                       && givenType.GetTypeInfo().IsGenericType
+                       && givenType.GetGenericTypeDefinition() == genericType;
             }
         }
     }
