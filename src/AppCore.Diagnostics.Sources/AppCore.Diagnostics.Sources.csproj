@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
@@ -11,10 +11,6 @@
 
   <ItemGroup>
     <None Remove="AppCore.Diagnostics.Sources.csproj.DotSettings" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\AppCore.TypeHelpers.Sources\contentFiles\cs\netstandard1.0\Internal\TypeExtensions.cs" Link="contentFiles\cs\netstandard1.0\Internal\TypeExtensions.cs" />
   </ItemGroup>
 
 </Project>
