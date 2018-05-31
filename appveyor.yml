@@ -8,3 +8,12 @@ nuget:
   disable_publish_on_pr: true
 build_script:
 - pwsh: ./build.ps1
+test_script:
+- pwsh: ./test.ps1
+deploy:
+- provider: NuGet
+  server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
+  api_key:
+    secure: aF+GlLpPf4FB5D7akxl0WObFyhDFRaShaj3BedQkojU=
+  on:
+    branch: master
