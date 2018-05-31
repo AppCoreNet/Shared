@@ -1,19 +1,36 @@
-version: 1.0.0-alpha.{build}
+version: {build}
+
 pull_requests:
   do_not_increment_build_number: true
+
 image: Visual Studio 2017
+
 nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+
+configuration: Debug
 build_script:
 - pwsh: ./build.ps1
 test_script:
 - pwsh: ./test.ps1
+
+for:
+
+# master branch
+-
+  branches:
+    only:
+      - master
+
+  configuration: Release
+
+
 deploy:
-- provider: NuGet
-  server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
-  api_key:
-    secure: aF+GlLpPf4FB5D7akxl0WObFyhDFRaShaj3BedQkojU=
-  on:
-    branch: master
+  - provider: NuGet
+    server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
+    api_key:
+      secure: aF+GlLpPf4FB5D7akxl0WObFyhDFRaShaj3BedQkojU=
+    on:
+      branch: dev
