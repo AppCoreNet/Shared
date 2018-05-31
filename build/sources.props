@@ -1,10 +1,14 @@
 <Project>
   <PropertyGroup>
-    <LocalPackageDirectory Condition=" '$(LocalPackageDirectory)' == '' ">$(MSBuildThisFileDirectory)/../../Packages</LocalPackageDirectory>
     <RestoreSources>
-      $(LocalPackageDirectory);
+	  $(ExtraRestoreSources);
       $(RestoreSources);
       https://api.nuget.org/v3/index.json
     </RestoreSources>
+    <LocalPackageDirectory Condition=" '$(LocalPackageDirectory)' == '' ">$(MSBuildThisFileDirectory)/../../Packages</LocalPackageDirectory>
+	<RestoreSources Condition=" Exists($(LocalPackageDirectory)) ">
+      $(LocalPackageDirectory);
+      $(RestoreSources)
+	</RestoreSources>
   </PropertyGroup>
 </Project>
