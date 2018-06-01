@@ -1,7 +1,7 @@
 #!/usr/bin/env powershell
 #requires -version 4
 
-Param([string]$Configuration="",[string]$VersionSuffix="",[Int32]$BuildNumber=0)
+Param([string]$Configuration="Debug",[string]$VersionSuffix="",[Int32]$BuildNumber=0)
 
 $ArtifactsDir = Join-Path $PSScriptRoot 'artifacts'
 

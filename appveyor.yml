@@ -1,4 +1,4 @@
-version: 'ci-{build}'
+version: 'ci-build-{build}'
 
 pull_requests:
   do_not_increment_build_number: true
@@ -12,9 +12,9 @@ nuget:
 
 configuration: Debug
 build_script:
-- pwsh: ./build.ps1 -Configuration $(configuration) -BuildNumber $(appveyor_build_number)
+- pwsh: ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER
 test_script:
-- pwsh: ./test.ps1
+- pwsh: ./test.ps1 -Configuration $env:CONFIGURATION
 
 branches:
   except:
