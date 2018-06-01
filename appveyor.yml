@@ -5,6 +5,9 @@ pull_requests:
 
 image: Visual Studio 2017
 
+cache:
+  - '%USERPROFILE%\.nuget\packages -> **\*.csproj'
+
 nuget:
   account_feed: true
   project_feed: true

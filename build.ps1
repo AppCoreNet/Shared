@@ -13,6 +13,11 @@ If ($VersionSuffix.length -gt 0)
 	$ExtraArgs += "/p:VersionSuffix=$VersionSuffix{0:0000}" -f $BuildNumber
 }
 
+If ($BuildNumber.length -gt 0)
+{
+	$ExtraArgs += "/p:BuildNumber={0:0000}" -f $BuildNumber
+}
+
 If ($Configuration.length -gt 0)
 {
 	$ExtraBuildArgs += "--configuration", "$Configuration"
