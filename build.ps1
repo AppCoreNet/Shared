@@ -1,7 +1,7 @@
 #!/usr/bin/env powershell
 #requires -version 4
 
-Param([string]$Configuration="Debug",[string]$VersionSuffix="",[Int32]$BuildNumber=0)
+Param([string]$Configuration="Debug",[string]$VersionSuffix="",[string]$BuildNumber="")
 
 $ArtifactsDir = Join-Path $PSScriptRoot 'artifacts'
 
@@ -10,12 +10,12 @@ $ExtraBuildArgs = @()
 
 If ($VersionSuffix.length -gt 0)
 {
-	$ExtraArgs += "/p:VersionSuffix=$VersionSuffix{0:0000}" -f $BuildNumber
+	$ExtraArgs += "/p:VersionSuffix=$VersionSuffix"
 }
 
 If ($BuildNumber.length -gt 0)
 {
-	$ExtraArgs += "/p:BuildNumber={0:0000}" -f $BuildNumber
+	$ExtraArgs += "/p:BuildNumber={0:0000}" -f [convert]::ToInt32($BuildNumber, 10)
 }
 
 If ($Configuration.length -gt 0)
