@@ -1,4 +1,4 @@
-version: '{build}'
+version: 'ci-{build}'
 
 pull_requests:
   do_not_increment_build_number: true
@@ -12,20 +12,14 @@ nuget:
 
 configuration: Debug
 build_script:
-- pwsh: ./build.ps1
+- pwsh: ./build.ps1 -BuildNumber $(appveyor_build_number)
 test_script:
 - pwsh: ./test.ps1
 
-for:
-
-# master branch
--
-  branches:
-    only:
-      - master
-
-  configuration: Release
-
+branches:
+  only:
+  - dev
+  - /^release\/.*$/
 
 deploy:
   - provider: NuGet
