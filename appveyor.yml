@@ -12,13 +12,12 @@ nuget:
 
 configuration: Debug
 build_script:
-- pwsh: ./build.ps1 -BuildNumber $(appveyor_build_number)
+- pwsh: ./build.ps1 -Configuration $(configuration) -BuildNumber $(appveyor_build_number)
 test_script:
 - pwsh: ./test.ps1
 
 branches:
-  only:
-  - dev
+  except:
   - /^release\/.*$/
 
 deploy:
