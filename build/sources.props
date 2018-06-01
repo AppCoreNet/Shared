@@ -6,9 +6,9 @@
       https://api.nuget.org/v3/index.json
     </RestoreSources>
     <LocalPackageDirectory Condition=" '$(LocalPackageDirectory)' == '' ">$(MSBuildThisFileDirectory)/../../Packages</LocalPackageDirectory>
-	<RestoreSources Condition=" Exists($(LocalPackageDirectory)) ">
+    <RestoreSources Condition=" Exists($(LocalPackageDirectory)) ">
       $(LocalPackageDirectory);
       $(RestoreSources)
-	</RestoreSources>
+    </RestoreSources>
   </PropertyGroup>
 </Project>

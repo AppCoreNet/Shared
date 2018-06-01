@@ -22,6 +22,10 @@ branches:
   except:
   - /^release\/.*$/
 
+artifacts:
+  - path: '**\*.nupkg'
+    name: NuGet Packages
+
 deploy:
   - provider: NuGet
     server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
