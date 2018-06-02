@@ -23,12 +23,12 @@ branches:
   - /^release\/.*$/
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: '**/*.nupkg'
     name: NuGet Packages
 
 deploy:
   - provider: NuGet
-    server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
+    server: https://ci.appveyor.com/nuget/appcorenet-shared
     api_key:
       secure: aF+GlLpPf4FB5D7akxl0WObFyhDFRaShaj3BedQkojU=
     on:
