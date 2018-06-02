@@ -8,8 +8,6 @@ image:
 - Ubuntu
 
 nuget:
-  account_feed: true
-  project_feed: true
   disable_publish_on_pr: true
 
 configuration: Debug
@@ -25,11 +23,3 @@ branches:
 artifacts:
   - path: '**\*.nupkg'
     name: NuGet Packages
-
-deploy:
-  - provider: NuGet
-    server: https://ci.appveyor.com/nuget/appcorenet-p5fkekw4np6k
-    api_key:
-      secure: aF+GlLpPf4FB5D7akxl0WObFyhDFRaShaj3BedQkojU=
-    on:
-      branch: dev
