@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>AppCore.Diagnostics</RootNamespace>
+    <PackageDescription>Provides static classes to ensure program contracts.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
