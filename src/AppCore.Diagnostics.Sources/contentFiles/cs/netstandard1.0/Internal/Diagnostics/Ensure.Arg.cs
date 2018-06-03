@@ -13,7 +13,7 @@ namespace AppCore.Diagnostics
     internal static partial class Ensure
     {
         /// <summary>
-        /// Provides helper methods to ensure argument values.
+        /// Provides helper methods to ensure method argument contracts.
         /// </summary>
         internal static class Arg
         {
@@ -112,11 +112,28 @@ namespace AppCore.Diagnostics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void MaxLength(string value, int maxLength, [InvokerParameterName] [NotNull] string paramName)
             {
-                if (value?.Length > maxLength)
+                if (value != null && value.Length > maxLength)
                     throw new ArgumentOutOfRangeException(
                         paramName,
                         value.Length,
                         $"Argument '{paramName}' exceeds maximum length of {maxLength} characters.");
+            }
+
+            /// <summary>
+            /// Ensures that the string argument does not deceed the specified minimum length.
+            /// </summary>
+            /// <param name="value">The <see cref="string"/> argument.</param>
+            /// <param name="minLength">The required minimum length.</param>
+            /// <param name="paramName">The parameter name.</param>
+            /// <exception cref="ArgumentOutOfRangeException">The string <paramref name="value"/> deceeds the minimum length.</exception>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void MinLength(string value, int minLength, [InvokerParameterName] [NotNull] string paramName)
+            {
+                if (value != null && value.Length < minLength)
+                    throw new ArgumentOutOfRangeException(
+                        paramName,
+                        value.Length,
+                        $"Argument '{paramName}' deceeds minimum length of {minLength} characters.");
             }
 
             /// <summary>

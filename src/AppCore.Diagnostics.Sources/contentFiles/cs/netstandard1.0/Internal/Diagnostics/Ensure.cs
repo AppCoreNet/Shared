@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace AppCore.Diagnostics
 {
     /// <summary>
-    /// Provides helper methods to ensure some condition.
+    /// Provides helper methods to ensure program contracts such as preconditions, postconditions, and invariants.
     /// </summary>
     [ExcludeFromCodeCoverage]
     internal static partial class Ensure
