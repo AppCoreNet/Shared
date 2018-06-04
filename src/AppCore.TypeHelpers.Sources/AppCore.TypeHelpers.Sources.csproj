@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>AppCore</RootNamespace>
+    <PackageDescription>Provides extensions for the Type class.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
