@@ -9,4 +9,8 @@
     <Compile Include="..\..\src\AppCore.Diagnostics.Sources\contentFiles\cs\any\**\*.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+    <Reference Include="System.Runtime" />
+  </ItemGroup>
+  
 </Project>
