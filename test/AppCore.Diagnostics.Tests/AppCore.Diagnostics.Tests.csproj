@@ -1,12 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
     <RootNamespace>AppCore.Diagnostics</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\src\AppCore.Diagnostics.Sources\contentFiles\cs\netstandard1.0\**\*.cs" />
+    <Compile Include="..\..\src\AppCore.Diagnostics.Sources\contentFiles\cs\any\**\*.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
+  </ItemGroup>
+  
 </Project>
