@@ -11,6 +11,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)'=='net452'">
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Threading.Tasks" />
   </ItemGroup>
   
 </Project>
