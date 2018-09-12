@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -11,10 +12,14 @@ namespace AppCore
     /// <summary>
     /// Provides extension methods for the <see cref="Type"/> class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal static class TypeExtensions
     {
         public static string GetDisplayName(this Type type)
         {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
             return type.FullName;
         }
 
@@ -25,6 +30,9 @@ namespace AppCore
         /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
         public static IEnumerable<Type> GetTypesAssignableFrom(this Type type)
         {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
             return GetBagOfTypesAssignableFrom(type)
                 .Distinct();
         }
@@ -65,7 +73,7 @@ namespace AppCore
         /// <exception cref="InvalidCastException">The specified type does not implement the generic type.</exception>
         public static Type GetClosedTypeOf(this Type type, Type openGeneric)
         {
-            Type result = FindClosedTypeOf(type, openGeneric);
+            Type result = type.FindClosedTypeOf(openGeneric);
             if (result == null)
                 throw new InvalidCastException($"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
 
@@ -80,6 +88,12 @@ namespace AppCore
         /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
         public static Type FindClosedTypeOf(this Type type, Type openGeneric)
         {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            if (openGeneric == null)
+                throw new ArgumentNullException(nameof(openGeneric));
+
             if (type.GetTypeInfo().ContainsGenericParameters)
                 return null;
 
