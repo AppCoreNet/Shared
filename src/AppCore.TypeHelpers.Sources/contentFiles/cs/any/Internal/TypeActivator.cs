@@ -14,9 +14,10 @@ namespace AppCore
         {
             ConstructorInfo constructor = type.GetTypeInfo()
                                               .DeclaredConstructors.FirstOrDefault(
-                                                  ci => ci.GetParameters()
-                                                          .Select(p => p.ParameterType)
-                                                          .SequenceEqual(argTypes));
+                                                  ci => ci.IsPublic
+                                                        && ci.GetParameters()
+                                                             .Select(p => p.ParameterType)
+                                                             .SequenceEqual(argTypes));
 
             if (constructor == null)
             {
