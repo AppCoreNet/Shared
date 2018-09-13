@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,7 @@ namespace AppCore.Diagnostics
         /// <summary>
         /// Provides helper methods to ensure method argument contracts.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         internal static class Arg
         {
             /// <summary>

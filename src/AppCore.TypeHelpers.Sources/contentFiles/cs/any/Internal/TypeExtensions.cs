@@ -3,19 +3,66 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace AppCore
 {
     /// <summary>
     /// Provides extension methods for the <see cref="Type"/> class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal static class TypeExtensions
     {
         public static string GetDisplayName(this Type type)
         {
-            return type.FullName;
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            var typeNameBuilder = new StringBuilder();
+            BuildDisplayName(typeNameBuilder, type);
+            return typeNameBuilder.ToString();
+        }
+
+        private static void BuildDisplayName(StringBuilder builder, Type type)
+        {
+            void BuildTypeArguments(StringBuilder sb, Type[] typeArguments)
+            {
+                builder.Append("<");
+                for (var i = 0; i < typeArguments.Length; i++)
+                {
+                    Type typeArgument = typeArguments[i];
+                    BuildDisplayName(sb, typeArgument);
+                    if (i + 1 < typeArguments.Length)
+                        sb.Append(',');
+                }
+                builder.Append(">");
+            }
+
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (!typeInfo.IsGenericParameter)
+            {
+                builder.Append(typeInfo.Namespace);
+                builder.Append(".");
+            }
+
+            if (typeInfo.IsGenericType)
+            {
+                string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
+                builder.Append(typeName);
+                BuildTypeArguments(
+                    builder,
+                    !typeInfo.IsGenericTypeDefinition
+                        ? typeInfo.GenericTypeArguments
+                        : typeInfo.GenericTypeParameters);
+            }
+            else
+            {
+                builder.Append(typeInfo.Name);
+            }
         }
 
         /// <summary>
@@ -25,6 +72,9 @@ namespace AppCore
         /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
         public static IEnumerable<Type> GetTypesAssignableFrom(this Type type)
         {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
             return GetBagOfTypesAssignableFrom(type)
                 .Distinct();
         }
@@ -65,7 +115,7 @@ namespace AppCore
         /// <exception cref="InvalidCastException">The specified type does not implement the generic type.</exception>
         public static Type GetClosedTypeOf(this Type type, Type openGeneric)
         {
-            Type result = FindClosedTypeOf(type, openGeneric);
+            Type result = type.FindClosedTypeOf(openGeneric);
             if (result == null)
                 throw new InvalidCastException($"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
 
@@ -80,6 +130,12 @@ namespace AppCore
         /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
         public static Type FindClosedTypeOf(this Type type, Type openGeneric)
         {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            if (openGeneric == null)
+                throw new ArgumentNullException(nameof(openGeneric));
+
             if (type.GetTypeInfo().ContainsGenericParameters)
                 return null;
 
