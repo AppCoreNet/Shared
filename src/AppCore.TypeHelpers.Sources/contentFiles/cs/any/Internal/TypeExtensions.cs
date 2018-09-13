@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace AppCore
 {
@@ -20,7 +21,48 @@ namespace AppCore
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            return type.FullName;
+            var typeNameBuilder = new StringBuilder();
+            BuildDisplayName(typeNameBuilder, type);
+            return typeNameBuilder.ToString();
+        }
+
+        private static void BuildDisplayName(StringBuilder builder, Type type)
+        {
+            void BuildTypeArguments(StringBuilder sb, Type[] typeArguments)
+            {
+                builder.Append("<");
+                for (var i = 0; i < typeArguments.Length; i++)
+                {
+                    Type typeArgument = typeArguments[i];
+                    BuildDisplayName(sb, typeArgument);
+                    if (i + 1 < typeArguments.Length)
+                        sb.Append(',');
+                }
+                builder.Append(">");
+            }
+
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            if (!typeInfo.IsGenericParameter)
+            {
+                builder.Append(typeInfo.Namespace);
+                builder.Append(".");
+            }
+
+            if (typeInfo.IsGenericType)
+            {
+                string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
+                builder.Append(typeName);
+                BuildTypeArguments(
+                    builder,
+                    !typeInfo.IsGenericTypeDefinition
+                        ? typeInfo.GenericTypeArguments
+                        : typeInfo.GenericTypeParameters);
+            }
+            else
+            {
+                builder.Append(typeInfo.Name);
+            }
         }
 
         /// <summary>
