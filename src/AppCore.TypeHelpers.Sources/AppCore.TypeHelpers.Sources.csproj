@@ -8,10 +8,17 @@
 
   <ItemGroup>
     <Content Include="contentFiles\**\*.*" />
+    <Compile Include="..\..\src\AppCore.Diagnostics.Sources\contentFiles\cs\any\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="AppCore.TypeHelpers.Sources.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppCore.Diagnostics.Sources\AppCore.Diagnostics.Sources.csproj">
+      <PrivateAssets>analyzers;build</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

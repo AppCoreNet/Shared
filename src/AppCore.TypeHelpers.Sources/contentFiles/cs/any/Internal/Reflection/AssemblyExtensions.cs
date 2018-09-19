@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using AppCore.Diagnostics;
 
 namespace AppCore.Reflection
 {
@@ -14,6 +15,9 @@ namespace AppCore.Reflection
     {
         public static IEnumerable<Type> GetExportedClosedTypesOf(this Assembly assembly, Type openGeneric)
         {
+            Ensure.Arg.NotNull(assembly, nameof(assembly));
+            Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
+
             return assembly.ExportedTypes
                            .Where(t => t.IsClosedTypeOf(openGeneric));
         }
