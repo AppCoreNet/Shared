@@ -7,14 +7,17 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using AppCore.Diagnostics;
 
 namespace AppCore
 {
     [ExcludeFromCodeCoverage]
     internal static class TypeActivator
     {
-        private static Delegate GetFactoryDelegate(Type type, params Type[] argTypes)
+        public static Delegate GetFactoryDelegate(Type type, params Type[] argTypes)
         {
+            Ensure.Arg.NotNull(type, nameof(type));
+
             ConstructorInfo constructor = type.GetTypeInfo()
                                               .DeclaredConstructors.FirstOrDefault(
                                                   ci => ci.IsPublic
@@ -194,8 +197,7 @@ namespace AppCore
 
         public static object CreateInstance(this Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return TypeFactory.ForReflectedType(type)
                               .WithoutArgs();
@@ -208,8 +210,7 @@ namespace AppCore
 
         public static object CreateInstance<TArg1>(this Type type, TArg1 arg1)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return TypeFactory.ForReflectedType(type)
                               .WithArgs<TArg1>()(arg1);
@@ -222,8 +223,7 @@ namespace AppCore
 
         public static object CreateInstance<TArg1, TArg2>(this Type type, TArg1 arg1, TArg2 arg2)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return TypeFactory.ForReflectedType(type)
                               .WithArgs<TArg1, TArg2>()(arg1, arg2);
@@ -236,8 +236,7 @@ namespace AppCore
 
         public static object CreateInstance<TArg1, TArg2, TArg3>(this Type type, TArg1 arg1, TArg2 arg2, TArg3 arg3)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return TypeFactory.ForReflectedType(type)
                               .WithArgs<TArg1, TArg2, TArg3>()(arg1, arg2, arg3);
@@ -255,8 +254,7 @@ namespace AppCore
             TArg3 arg3,
             TArg4 arg4)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return TypeFactory.ForReflectedType(type)
                               .WithArgs<TArg1, TArg2, TArg3, TArg4>()(arg1, arg2, arg3, arg4);

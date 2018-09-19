@@ -13,5 +13,5 @@
   <ItemGroup>
     <None Remove="AppCore.Diagnostics.Sources.csproj.DotSettings" />
   </ItemGroup>
-
+  
 </Project>

@@ -54,7 +54,7 @@ namespace AppCore
         [Fact]
         public void ReflectedWithNoArgsSucceeds()
         {
-            var instance = TypeActivator.CreateInstance(typeof(TestType));
+            object instance = typeof(TestType).CreateInstance();
             instance.Should()
                     .NotBeNull();
         }
@@ -63,7 +63,7 @@ namespace AppCore
         public void GenericWithOneArgSucceeds()
         {
             int arg1 = 1;
-            var instance = TypeActivator.CreateInstance<TestType, int>(arg1);
+            TestType instance = TypeActivator.CreateInstance<TestType, int>(arg1);
             instance.Arg1.Should().Be(arg1);
         }
 
@@ -71,7 +71,7 @@ namespace AppCore
         public void ReflectedWithOneArgSucceeds()
         {
             int arg1 = 1;
-            var instance = (TestType) TypeActivator.CreateInstance(typeof(TestType), arg1);
+            var instance = (TestType) typeof(TestType).CreateInstance(arg1);
             instance.Arg1.Should().Be(arg1);
         }
 
@@ -80,7 +80,7 @@ namespace AppCore
         {
             int arg1 = 1;
             string arg2 = "abc";
-            var instance = TypeActivator.CreateInstance<TestType, int, string>(arg1, arg2);
+            TestType instance = TypeActivator.CreateInstance<TestType, int, string>(arg1, arg2);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()
@@ -92,7 +92,7 @@ namespace AppCore
         {
             int arg1 = 1;
             string arg2 = "abc";
-            var instance = (TestType) TypeActivator.CreateInstance(typeof(TestType), arg1, arg2);
+            var instance = (TestType) typeof(TestType).CreateInstance(arg1, arg2);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()
@@ -105,7 +105,7 @@ namespace AppCore
             int arg1 = 1;
             string arg2 = "abc";
             char arg3 = 'x';
-            var instance = TypeActivator.CreateInstance<TestType, int, string, char>(arg1, arg2, arg3);
+            TestType instance = TypeActivator.CreateInstance<TestType, int, string, char>(arg1, arg2, arg3);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()
@@ -120,7 +120,7 @@ namespace AppCore
             int arg1 = 1;
             string arg2 = "abc";
             char arg3 = 'x';
-            var instance = (TestType) TypeActivator.CreateInstance(typeof(TestType), arg1, arg2, arg3);
+            var instance = (TestType) typeof(TestType).CreateInstance(arg1, arg2, arg3);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()
@@ -135,8 +135,8 @@ namespace AppCore
             int arg1 = 1;
             string arg2 = "abc";
             char arg3 = 'x';
-            TestType arg4 = new TestType();
-            var instance = TypeActivator.CreateInstance<TestType, int, string, char, TestType>(arg1, arg2, arg3, arg4);
+            var arg4 = new TestType();
+            TestType instance = TypeActivator.CreateInstance<TestType, int, string, char, TestType>(arg1, arg2, arg3, arg4);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()
@@ -153,8 +153,8 @@ namespace AppCore
             int arg1 = 1;
             string arg2 = "abc";
             char arg3 = 'x';
-            TestType arg4 = new TestType();
-            var instance = (TestType) TypeActivator.CreateInstance(typeof(TestType), arg1, arg2, arg3, arg4);
+            var arg4 = new TestType();
+            var instance = (TestType) typeof(TestType).CreateInstance(arg1, arg2, arg3, arg4);
             instance.Arg1.Should()
                     .Be(arg1);
             instance.Arg2.Should()

@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using AppCore.Diagnostics;
 
 namespace AppCore
 {
@@ -18,8 +19,7 @@ namespace AppCore
     {
         public static string GetDisplayName(this Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             var typeNameBuilder = new StringBuilder();
             BuildDisplayName(typeNameBuilder, type);
@@ -31,7 +31,7 @@ namespace AppCore
             void BuildTypeArguments(StringBuilder sb, Type[] typeArguments)
             {
                 builder.Append("<");
-                for (var i = 0; i < typeArguments.Length; i++)
+                for (int i = 0; i < typeArguments.Length; i++)
                 {
                     Type typeArgument = typeArguments[i];
                     BuildDisplayName(sb, typeArgument);
@@ -72,8 +72,7 @@ namespace AppCore
         /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
         public static IEnumerable<Type> GetTypesAssignableFrom(this Type type)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
+            Ensure.Arg.NotNull(type, nameof(type));
 
             return GetBagOfTypesAssignableFrom(type)
                 .Distinct();
@@ -130,11 +129,8 @@ namespace AppCore
         /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
         public static Type FindClosedTypeOf(this Type type, Type openGeneric)
         {
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            if (openGeneric == null)
-                throw new ArgumentNullException(nameof(openGeneric));
+            Ensure.Arg.NotNull(type, nameof(type));
+            Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
 
             if (type.GetTypeInfo().ContainsGenericParameters)
                 return null;
