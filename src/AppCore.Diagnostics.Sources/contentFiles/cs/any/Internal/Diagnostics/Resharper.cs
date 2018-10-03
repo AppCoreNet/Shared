@@ -31,6 +31,8 @@ using System.Diagnostics.CodeAnalysis;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
+#if !APPCORE_DISABLE_RESHARPER_ANNOTATIONS
+
 namespace JetBrains.Annotations
 {
   /// <summary>
@@ -1134,3 +1136,5 @@ internal enum AssertionConditionType
   [ExcludeFromCodeCoverage]
   internal sealed class RazorWriteMethodParameterAttribute : Attribute { }
 }
+
+#endif
