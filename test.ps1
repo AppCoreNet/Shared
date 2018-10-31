@@ -8,8 +8,6 @@ $ArtifactsDir = Join-Path $PSScriptRoot 'artifacts'
 $TestResultsDir = Join-Path $ArtifactsDir 'tests'
 
 Get-ChildItem -Path test -Recurse *.csproj | % {
-  dotnet test "$($_.FullName)" -c "$Configuration" --collect "Code Coverage" -l trx -r "$TestResultsDir"
+  dotnet test "$($_.FullName)" -c "$Configuration" --no-build -l trx -r "$TestResultsDir"
   $TestsFailed = $TestsFailed -or ($LastExitCode -ne 0)
 }
-
-If ($TestsFailed) { throw "Some tests failed." }
