@@ -1,8 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <VersionSuffix>alpha</VersionSuffix>
-    <BuildNumber></BuildNumber>
-	<VersionSuffix Condition=" '$(BuildNumber)' != '' ">$(VersionSuffix)$(BuildNumber)</VersionSuffix>
-  </PropertyGroup>
-</Project>
