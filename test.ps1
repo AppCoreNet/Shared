@@ -1,7 +1,9 @@
-#!/usr/bin/env powershell
+#!/usr/bin/env pwsh
 #requires -version 4
 
-Param([string]$Configuration="Debug")
+Param(
+  [string]$Configuration="Debug"
+)
 
 $ErrorActionPreference = "Stop"
 $ArtifactsDir = Join-Path $PSScriptRoot 'artifacts'
@@ -12,6 +14,7 @@ $TargetFrameworks = @{
   "netcoreapp1.1" = ".NETCoreApp,Version=v1.1"
   "netcoreapp2.0" = ".NETCoreApp,Version=v2.0"
   "netcoreapp2.1" = ".NETCoreApp,Version=v2.1"
+  "netcoreapp2.2" = ".NETCoreApp,Version=v2.2"
 }
 
 If (!$IsLinux) {

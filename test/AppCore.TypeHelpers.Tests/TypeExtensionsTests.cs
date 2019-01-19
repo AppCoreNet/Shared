@@ -64,14 +64,12 @@ namespace AppCore
         public void GetTypesAssignableFromReturnsInheritedTypesAndImplementedInterfaces()
         {
             typeof(ClosedGenericType).GetTypesAssignableFrom()
-                                     .ShouldBeEquivalentTo(
-                                         new[]
-                                         {
-                                             typeof(ClosedGenericType),
-                                             typeof(GenericType<string, char>),
-                                             typeof(IGenericInterface<string, char>),
-                                             typeof(object)
-                                         });
+                                     .Should()
+                                     .BeEquivalentTo(
+                                         typeof(ClosedGenericType),
+                                         typeof(GenericType<string, char>),
+                                         typeof(IGenericInterface<string, char>),
+                                         typeof(object));
         }
     }
 }
