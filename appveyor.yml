@@ -37,4 +37,4 @@ deploy:
   server: https://www.myget.org/F/appcorenet/api/v2/package
   api_key:
     secure: eB0zjsEqa4oBKHhgwqhd62CdOG5YIKyTHEApHF9xwxuxjplKdIKBYEn2R2/6ITOb
-  artifact: /.*\..*nupkg/
+  artifact: /.*\.nupkg/
