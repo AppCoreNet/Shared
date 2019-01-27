@@ -8,7 +8,7 @@ image:
 - Ubuntu
 
 cache:
-  - '%USERPROFILE%\.nuget\packages -> **/*.csproj'
+  - '%USERPROFILE%\.nuget\packages -> **\*.csproj'
 
 nuget:
   disable_publish_on_pr: true
