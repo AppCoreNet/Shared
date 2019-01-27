@@ -7,6 +7,9 @@ image:
 - Visual Studio 2017
 - Ubuntu
 
+cache:
+  - '%USERPROFILE%\.nuget\packages -> **/*.csproj'
+
 nuget:
   disable_publish_on_pr: true
 
@@ -21,5 +24,16 @@ branches:
   - /^release\/.*$/
 
 artifacts:
-  - path: '**/*.nupkg'
+  - path: '**/*.*nupkg'
     name: NuGet Packages
+
+deploy:
+  provider: NuGet
+  name: MyGet
+  on:
+    branch: dev
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  server: https://www.myget.org/F/appcorenet/api/v2/package
+  api_key:
+    secure: eB0zjsEqa4oBKHhgwqhd62CdOG5YIKyTHEApHF9xwxuxjplKdIKBYEn2R2/6ITOb
+  artifact: **/*.*nupkg

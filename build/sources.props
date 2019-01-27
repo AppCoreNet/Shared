@@ -3,7 +3,8 @@
     <RestoreSources>
       $(ExtraRestoreSources);
       $(RestoreSources);
-      https://api.nuget.org/v3/index.json
+      https://api.nuget.org/v3/index.json;
+      https://www.myget.org/F/appcorenet/api/v3/index.json
     </RestoreSources>
 
     <!-- CI build restore sources -->
