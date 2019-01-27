@@ -9,6 +9,7 @@ image:
 
 cache:
   - '%USERPROFILE%\.nuget\packages -> **\*.csproj'
+  - '~/.nuget/packages -> **/*.csproj'
 
 nuget:
   disable_publish_on_pr: true
