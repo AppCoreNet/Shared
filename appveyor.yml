@@ -16,7 +16,7 @@ nuget:
 
 configuration: Debug
 build_script:
-- pwsh: write-output $env:NUGET_NUGET_FALLBACK_PACKAGES ; ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER -CI
+- pwsh: write-output $env:NUGET_FALLBACK_PACKAGES ; ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER -CI
 test_script:
 - pwsh: ./test.ps1 -Configuration $env:CONFIGURATION
 
