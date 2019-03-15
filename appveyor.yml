@@ -8,15 +8,15 @@ image:
 - Ubuntu
 
 cache:
-#  - '%USERPROFILE%\.nuget\packages -> **\*.csproj, **\*.props, **\*.targets'
-#  - '/home/appveyor/.nuget/packages -> **/*.csproj, **/*.props, **/*.targets'
+  - '%USERPROFILE%\.nuget\packages -> **\*.csproj, **\*.props, **\*.targets'
+  - '/home/appveyor/.nuget/packages -> **/*.csproj, **/*.props, **/*.targets'
 
 nuget:
   disable_publish_on_pr: true
 
 configuration: Debug
 build_script:
-- pwsh: dotnet nuget locals all --clear ; ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER -CI
+- pwsh: ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER -CI
 test_script:
 - pwsh: ./test.ps1 -Configuration $env:CONFIGURATION
 
