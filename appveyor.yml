@@ -14,17 +14,6 @@ cache:
 nuget:
   disable_publish_on_pr: true
 
-install:
-- ps: |
-    Write-Host "Installing .NET Core SDK..." -ForegroundColor Cyan
-    Write-Host "Downloading..."
-    $exePath = "$env:TEMP\dotnet-sdk.exe"
-    (New-Object Net.WebClient).DownloadFile('https://download.visualstudio.microsoft.com/download/pr/8148cce0-196d-4634-86df-f3d4550b1a75/89ed68d0ecf6b1c62cc7b0d129fdf600/dotnet-sdk-2.2.105-win-x64.exe', $exePath)
-    Write-Host "Installing..."
-    cmd /c start /wait "$exePath" /quiet /norestart
-    del $exePath
-    Write-Host "Installed" -ForegroundColor Green
-  
 configuration: Debug
 build_script:
 - pwsh: ./build.ps1 -Configuration $env:CONFIGURATION -BuildNumber $env:APPVEYOR_BUILD_NUMBER -CI
