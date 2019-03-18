@@ -1,4 +1,5 @@
-name: $(Date:yyyyMMdd).$(Rev:.r)
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
 variables:
   configuration: Debug
 
@@ -17,8 +18,14 @@ jobs:
   - pwsh: ./build.ps1 -Configuration $(configuration) -CI
     displayName: Build
   - pwsh: ./test.ps1 -Configuration $(configuration)
-    displayName: Test
-    
+    displayName: Run Tests
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      failTaskOnFailedTests: true
+
 - job: Windows
   pool:
     vmImage: 'vs2017-win2016'
@@ -26,4 +33,10 @@ jobs:
   - pwsh: ./build.ps1 -Configuration $(configuration) -CI
     displayName: Build
   - pwsh: ./test.ps1 -Configuration $(configuration)
-    displayName: Test
+    displayName: Run Tests
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+      failTaskOnFailedTests: true
