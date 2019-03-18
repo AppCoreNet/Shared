@@ -15,28 +15,14 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - pwsh: ./build.ps1 -Configuration $(configuration) -CI
-    displayName: Build
-  - pwsh: ./test.ps1 -Configuration $(configuration)
-    displayName: Run Tests
-  - task: PublishTestResults@2
-    displayName: Publish Test Results
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
-      failTaskOnFailedTests: true
+  - template: build/azure-pipeline-steps.yml
+    parameters:
+      configuration: $(configuration)
 
 - job: Windows
   pool:
     vmImage: 'vs2017-win2016'
   steps:
-  - pwsh: ./build.ps1 -Configuration $(configuration) -CI
-    displayName: Build
-  - pwsh: ./test.ps1 -Configuration $(configuration)
-    displayName: Run Tests
-  - task: PublishTestResults@2
-    displayName: Publish Test Results
-    inputs:
-      testRunner: VSTest
-      testResultsFiles: '**/*.trx'
-      failTaskOnFailedTests: true
+  - template: build/azure-pipeline-steps.yml
+    parameters:
+      configuration: $(configuration)
