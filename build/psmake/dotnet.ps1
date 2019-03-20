@@ -52,8 +52,9 @@ function DotNet-SetVersion {
   }
   
   # Azure DevOps build
-  Write-Output $env:TF_BUILD
-  Write-Output "##vso[build.updatebuildnumber]$($Version.FullSemVer)"
+  If ($env:TF_BUILD) {
+    Write-Host "##vso[build.updatebuildnumber]$($Version.FullSemVer)"
+  }
 }
 
 function DotNet-Restore {
