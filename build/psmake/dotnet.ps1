@@ -52,7 +52,8 @@ function DotNet-SetVersion {
   }
   
   # Azure DevOps build
-  Write-Output "##vso[task.setvariable variable=Build.BuildNumber]$($Version.FullSemVer)"
+  Write-Output $env:TF_BUILD
+  Write-Output "##vso[build.updatebuildnumber]$($Version.FullSemVer)"
 }
 
 function DotNet-Restore {
