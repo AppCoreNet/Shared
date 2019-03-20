@@ -50,6 +50,11 @@ function DotNet-SetVersion {
     Write-Verbose "Updated version.props: $VersionProps"
     Out-File $VersionPropsPath -InputObject $VersionProps -NoNewline -Encoding UTF8
   }
+  
+  # Azure DevOps build
+  If ($env:TF_BUILD -eq "True") {
+    Write-Output "##vso[task.setvariable variable=Build.BuildNumber;]$($Version.FullSemVer)"
+  }
 }
 
 function DotNet-Restore {
