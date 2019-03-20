@@ -1,3 +1,6 @@
+parameters:
+  configuration: 'Debug'
+  
 steps:
 - pwsh: ./publish.ps1 -Properties @{Configuration='${{ parameters.configuration }}'; OutputDir='$(Build.ArtifactStagingDirectory)'}
   displayName: Publish
