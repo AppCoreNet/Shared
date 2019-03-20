@@ -1,0 +1,11 @@
+steps:
+- pwsh: ./publish.ps1 -Properties @{Configuration='${{ parameters.configuration }}' OutputDir='$(Build.ArtifactStagingDirectory)'}
+  displayName: Publish
+- task: NuGetCommand@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
+  displayName: Push Packages
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: MyGet
+    packagesToPush: $(Build.ArtifactStagingDirectory)/packages/**.*nupkg
