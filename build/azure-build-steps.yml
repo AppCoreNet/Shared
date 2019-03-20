@@ -4,7 +4,7 @@ parameters:
 steps:
 - pwsh: ./build.ps1 -Properties @{Configuration='${{ parameters.configuration }}'}
   displayName: Build
-- pwsh: ./test.ps1 -Properties @{Configuration='${{ parameters.configuration }}' OutputDir='$(Build.ArtifactStagingDirectory)'}
+- pwsh: ./test.ps1 -Properties @{Configuration='${{ parameters.configuration }}', OutputDir='$(Build.ArtifactStagingDirectory)'}
   displayName: Run Tests
 - task: PublishTestResults@2
   displayName: Publish Test Results

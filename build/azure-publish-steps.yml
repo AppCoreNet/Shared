@@ -1,5 +1,5 @@
 steps:
-- pwsh: ./publish.ps1 -Properties @{Configuration='${{ parameters.configuration }}' OutputDir='$(Build.ArtifactStagingDirectory)'}
+- pwsh: ./publish.ps1 -Properties @{Configuration='${{ parameters.configuration }}', OutputDir='$(Build.ArtifactStagingDirectory)'}
   displayName: Publish
 - task: NuGetCommand@2
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
