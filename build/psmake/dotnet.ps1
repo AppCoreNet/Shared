@@ -52,9 +52,7 @@ function DotNet-SetVersion {
   }
   
   # Azure DevOps build
-  If ($env:System.TeamProject) {
-    Write-Output "##vso[task.setvariable variable=Build.BuildNumber;]$($Version.FullSemVer)"
-  }
+  Write-Output "##vso[task.setvariable variable=Build.BuildNumber;]$($Version.FullSemVer)"
 }
 
 function DotNet-Restore {
