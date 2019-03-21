@@ -1,18 +1,18 @@
 <Project>
   <PropertyGroup>
-    <Authors>Christian Prochnow</Authors>
+    <Authors>AppCore .NET Contributors</Authors>
     <Company>The AppCore .NET project</Company>
-    <Product>AppCore Shared Utility Sources</Product>
+    <Product>AppCore .NET Shared Sources</Product>
     <Copyright>Copyright (c) 2018,2019 the AppCore .NET project</Copyright>
     <VersionPrefix>1.0.0</VersionPrefix>
     <PackageLicenseUrl>https://github.com/AppCoreNet/Shared/blob/dev/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/AppCoreNet/Shared</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>  
+    <RepositoryType>git</RepositoryType>
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <!--
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <RestoreLockedMode Condition="'$(CI)' == 'true'">true</RestoreLockedMode>    
+    <RestoreLockedMode Condition="'$(CI)' == 'true'">true</RestoreLockedMode>
     -->
   </PropertyGroup>
 
@@ -20,5 +20,5 @@
   <Import Project="./build/netfx.props" />
   <Import Project="./build/sources.props" />
   <Import Project="./build/dependency-versions.props" />
-  
+
 </Project>

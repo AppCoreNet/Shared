@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.0;netstandard2.0</TargetFrameworks>
     <RootNamespace>AppCore</RootNamespace>
-    <PackageDescription>Provides extensions for the Type class.</PackageDescription>
+    <PackageDescription>Provides extensions for Type, TypeInfo and Assembly.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
