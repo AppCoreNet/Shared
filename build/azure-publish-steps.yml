@@ -6,15 +6,15 @@ steps:
   displayName: Publish
 - task: NuGetCommand@2
   condition: eq(variables['Build.Reason'], 'PullRequest')
-  displayName: Push CI Packages
+  displayName: Push Packages (Testing)
   inputs:
     command: push
     nuGetFeedType: external
-    publishFeedCredentials: MyGet CI
+    publishFeedCredentials: MyGet Testing
     packagesToPush: $(Build.ArtifactStagingDirectory)/packages/**.*nupkg
 - task: NuGetCommand@2
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
-  displayName: Push Packages
+  displayName: Push Packages (CI)
   inputs:
     command: push
     nuGetFeedType: external
