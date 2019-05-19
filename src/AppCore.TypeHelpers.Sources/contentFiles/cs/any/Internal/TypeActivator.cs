@@ -1,7 +1,8 @@
 ﻿// Licensed under the MIT License.
-// Copyright (c) 2018 the AppCore .NET project.
+// Copyright (c) 2018,2019 the AppCore .NET project.
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -14,7 +15,18 @@ namespace AppCore
     [ExcludeFromCodeCoverage]
     internal static class TypeActivator
     {
-        public static Delegate GetFactoryDelegate(Type type, params Type[] argTypes)
+        public static TDelegate GetFactoryDelegate<TDelegate>(Type type)
+            where TDelegate : Delegate
+        {
+            Type[] argTypes = typeof(TDelegate).GetTypeInfo().GenericTypeArguments;
+            argTypes = argTypes.Take(argTypes.Length - 1)
+                               .ToArray();
+
+            return GetFactoryDelegate<TDelegate>(type, argTypes);
+        }
+
+        public static TDelegate GetFactoryDelegate<TDelegate>(Type type, params Type[] argTypes)
+            where TDelegate : Delegate
         {
             Ensure.Arg.NotNull(type, nameof(type));
 
@@ -32,12 +44,20 @@ namespace AppCore
                     + $"'{string.Join(",", argTypes.Select(t => t.GetDisplayName()))}'.");
             }
 
-            ParameterExpression[] parameters =
-                argTypes.Select((t, i) => Expression.Parameter(t, "arg" + i))
-                        .ToArray();
+            Type[] passedArgTypes = typeof(TDelegate).GetTypeInfo().GenericTypeArguments;
+            passedArgTypes = passedArgTypes.Take(passedArgTypes.Length - 1)
+                                           .ToArray();
 
-            return Expression.Lambda(Expression.New(constructor, parameters), parameters)
-                             .Compile();
+            ParameterExpression[] parameters =
+                passedArgTypes.Select((t, i) => Expression.Parameter(t, "arg" + i))
+                              .ToArray();
+
+            NewExpression body = Expression.New(
+                constructor,
+                parameters.Select((t, i) => Expression.Convert(parameters[i], argTypes[i])));
+
+            return (TDelegate) Expression.Lambda(body, parameters)
+                                         .Compile();
         }
 
         private static class TypeFactory
@@ -47,25 +67,25 @@ namespace AppCore
                 public static class WithoutArgs
                 {
                     public static readonly Func<T> Create =
-                        (Func<T>) GetFactoryDelegate(typeof(T));
+                        (Func<T>) GetFactoryDelegate<Func<T>>(typeof(T));
                 }
 
                 public static class WithArgs<TArg1>
                 {
                     public static readonly Func<TArg1, T> Create =
-                        (Func<TArg1, T>) GetFactoryDelegate(typeof(T), typeof(TArg1));
+                        GetFactoryDelegate<Func<TArg1, T>>(typeof(T), typeof(TArg1));
                 }
 
                 public static class WithArgs<TArg1, TArg2>
                 {
                     public static readonly Func<TArg1, TArg2, T> Create =
-                        (Func<TArg1, TArg2, T>) GetFactoryDelegate(typeof(T), typeof(TArg1), typeof(TArg2));
+                        GetFactoryDelegate<Func<TArg1, TArg2, T>>(typeof(T), typeof(TArg1), typeof(TArg2));
                 }
 
                 public static class WithArgs<TArg1, TArg2, TArg3>
                 {
                     public static readonly Func<TArg1, TArg2, TArg3, T> Create =
-                        (Func<TArg1, TArg2, TArg3, T>) GetFactoryDelegate(
+                        GetFactoryDelegate<Func<TArg1, TArg2, TArg3, T>>(
                             typeof(T),
                             typeof(TArg1),
                             typeof(TArg2),
@@ -75,7 +95,7 @@ namespace AppCore
                 public static class WithArgs<TArg1, TArg2, TArg3, TArg4>
                 {
                     public static readonly Func<TArg1, TArg2, TArg3, TArg4, T> Create =
-                        (Func<TArg1, TArg2, TArg3, TArg4, T>) GetFactoryDelegate(
+                        GetFactoryDelegate<Func<TArg1, TArg2, TArg3, TArg4, T>>(
                             typeof(T),
                             typeof(TArg1),
                             typeof(TArg2),
@@ -108,7 +128,7 @@ namespace AppCore
                 public Func<object> WithoutArgs()
                 {
                     return _noArgsFactory
-                           ?? (_noArgsFactory = (Func<object>) GetFactoryDelegate(_type));
+                           ?? (_noArgsFactory = GetFactoryDelegate<Func<object>>(_type));
                 }
 
                 private Delegate GetOrAddFactory(ArgTypes key, Func<ArgTypes, Delegate> func)
@@ -132,7 +152,7 @@ namespace AppCore
                         {
                             Arg1 = typeof(TArg1)
                         },
-                        t => GetFactoryDelegate(_type, t.Arg1));
+                        t => GetFactoryDelegate<Func<TArg1, object>>(_type, t.Arg1));
                 }
 
                 public Func<TArg1, TArg2, object> WithArgs<TArg1, TArg2>()
@@ -143,7 +163,7 @@ namespace AppCore
                             Arg1 = typeof(TArg1),
                             Arg2 = typeof(TArg2)
                         },
-                        t => GetFactoryDelegate(_type, t.Arg1, t.Arg2));
+                        t => GetFactoryDelegate<Func<TArg1, TArg2, object>>(_type, t.Arg1, t.Arg2));
                 }
 
                 public Func<TArg1, TArg2, TArg3, object> WithArgs<TArg1, TArg2, TArg3>()
@@ -155,7 +175,7 @@ namespace AppCore
                             Arg2 = typeof(TArg2),
                             Arg3 = typeof(TArg3)
                         },
-                        t => GetFactoryDelegate(_type, t.Arg1, t.Arg2, t.Arg3));
+                        t => GetFactoryDelegate<Func<TArg1, TArg2, TArg3, object>>(_type, t.Arg1, t.Arg2, t.Arg3));
                 }
 
                 public Func<TArg1, TArg2, TArg3, TArg4, object> WithArgs<TArg1, TArg2, TArg3, TArg4>()
@@ -168,7 +188,12 @@ namespace AppCore
                             Arg3 = typeof(TArg3),
                             Arg4 = typeof(TArg4)
                         },
-                        t => GetFactoryDelegate(_type, t.Arg1, t.Arg2, t.Arg3, t.Arg4));
+                        t => GetFactoryDelegate<Func<TArg1, TArg2, TArg3, TArg4, object>>(
+                            _type,
+                            t.Arg1,
+                            t.Arg2,
+                            t.Arg3,
+                            t.Arg4));
                 }
             }
 
