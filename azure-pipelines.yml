@@ -6,12 +6,6 @@ variables:
 trigger:
 - dev
 
-resources:
-  repositories:
-  - repository: self
-    checkoutOptions:
-      submodules: true
-
 jobs:
 - job: Linux
   pool:
