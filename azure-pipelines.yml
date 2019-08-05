@@ -9,7 +9,7 @@ trigger:
 jobs:
 - job: Linux
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   steps:
   - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
@@ -18,9 +18,17 @@ jobs:
     parameters:
       configuration: $(configuration)  
 
+- job: MacOS
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - template: build/shared/azure-pipelines/build-steps.yml
+    parameters:
+      configuration: $(configuration)
+      
 - job: Windows
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-latest'
   steps:
   - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
