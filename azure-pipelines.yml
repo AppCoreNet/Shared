@@ -6,13 +6,17 @@ variables:
 trigger:
 - dev
 
+resources:
+  repositories:
+  - repository: self
+    checkoutOptions:
+      submodules: true
+
 jobs:
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - checkout: self
-    submodules: true  
   - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
       configuration: $(configuration)
@@ -24,8 +28,6 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
-  - checkout: self
-    submodules: true  
   - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
       configuration: $(configuration)
