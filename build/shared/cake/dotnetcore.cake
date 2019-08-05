@@ -154,25 +154,19 @@ Task("DotNetCore.Test")
 
     var timestamp = $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss-FFF}";
     
-    var coverletOutput = System.IO.Path.GetFullPath(testResultsDir);
-    coverletOutput = System.IO.Path.Combine(coverletOutput, $"coverage-{timestamp}");
-    
     var coverletSettings = new CoverletSettings {
         CollectCoverage = p.DotNetCore.CollectCoverage,
-        CoverletOutputFormat = p.DotNetCore.CoverletOutputFormat,
-        //CoverletOutputDirectory = Directory(testResultsDir),
-        //CoverletOutputName = $"coverage-{timestamp}",
+        CoverletOutputFormat = CoverletOutputFormat.json|p.DotNetCore.CoverletOutputFormat,
+        CoverletOutputDirectory = Directory(testResultsDir),
+        CoverletOutputName = $"coverage-{timestamp}",
+        MergeWithFile = $"coverage-{timestamp}.json",
         IncludeTestAssembly = p.DotNetCore.CollectTestAssemblyCoverage,
         Exclude = new List<string>() { "[xunit.*]*", "[*]*Tests*" }
     };
     
     DotNetCoreTest(p.DotNetCore.TestSolution.ToString(), new DotNetCoreTestSettings
     {
-        /*
-          Hack to append the target framework for coverage output
-          https://github.com/tonerdo/coverlet/issues/177
-        */
-        ArgumentCustomization = args=> args.Append($"/property:_CoverletOutput=\"{coverletOutput}\""),
+        ArgumentCustomization = args=> args.Append($"/maxcpucount:1"),
         Configuration = p.Configuration,
         ResultsDirectory = testResultsDir,
         Logger = "trx",

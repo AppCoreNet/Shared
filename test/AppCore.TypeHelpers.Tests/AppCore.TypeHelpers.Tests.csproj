@@ -4,6 +4,7 @@
     <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net452</TargetFrameworks>
     <RootNamespace>AppCore</RootNamespace>
+    <DefineConstants>$(DefineConstants);APPCORE_SHARED_TEST_SOURCES</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

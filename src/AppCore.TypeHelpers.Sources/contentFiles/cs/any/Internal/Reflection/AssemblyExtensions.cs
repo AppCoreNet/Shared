@@ -9,8 +9,10 @@ using System.Reflection;
 using AppCore.Diagnostics;
 
 namespace AppCore.Reflection
-{
+{ 
+    #if !APPCORE_SHARED_TEST_SOURCES
     [ExcludeFromCodeCoverage]
+    #endif
     internal static class AssemblyExtensions
     {
         public static IEnumerable<Type> GetExportedClosedTypesOf(this Assembly assembly, Type openGeneric)

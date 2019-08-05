@@ -16,7 +16,9 @@ namespace AppCore.Diagnostics
         /// <summary>
         /// Provides helper methods to ensure method argument contracts.
         /// </summary>
+        #if !APPCORE_SHARED_TEST_SOURCES
         [ExcludeFromCodeCoverage]
+        #endif
         internal static class Arg
         {
             /// <summary>

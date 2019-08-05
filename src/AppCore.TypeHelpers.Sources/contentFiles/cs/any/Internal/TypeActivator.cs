@@ -11,8 +11,10 @@ using System.Reflection;
 using AppCore.Diagnostics;
 
 namespace AppCore
-{
+{ 
+    #if !APPCORE_SHARED_TEST_SOURCES
     [ExcludeFromCodeCoverage]
+    #endif
     internal static class TypeActivator
     {
         public static TDelegate GetFactoryDelegate<TDelegate>(Type type)
@@ -60,28 +62,46 @@ namespace AppCore
                                          .Compile();
         }
 
+        #if !APPCORE_SHARED_TEST_SOURCES
+        [ExcludeFromCodeCoverage]
+        #endif
         private static class TypeFactory
         {
+            #if !APPCORE_SHARED_TEST_SOURCES
+            [ExcludeFromCodeCoverage]
+            #endif
             public static class ForType<T>
             {
+                #if !APPCORE_SHARED_TEST_SOURCES
+                [ExcludeFromCodeCoverage]
+                #endif
                 public static class WithoutArgs
                 {
                     public static readonly Func<T> Create =
                         (Func<T>) GetFactoryDelegate<Func<T>>(typeof(T));
                 }
 
+                #if !APPCORE_SHARED_TEST_SOURCES
+                [ExcludeFromCodeCoverage]
+                #endif
                 public static class WithArgs<TArg1>
                 {
                     public static readonly Func<TArg1, T> Create =
                         GetFactoryDelegate<Func<TArg1, T>>(typeof(T), typeof(TArg1));
                 }
 
+                #if !APPCORE_SHARED_TEST_SOURCES
+                [ExcludeFromCodeCoverage]
+                #endif
                 public static class WithArgs<TArg1, TArg2>
                 {
                     public static readonly Func<TArg1, TArg2, T> Create =
                         GetFactoryDelegate<Func<TArg1, TArg2, T>>(typeof(T), typeof(TArg1), typeof(TArg2));
                 }
 
+                #if !APPCORE_SHARED_TEST_SOURCES
+                [ExcludeFromCodeCoverage]
+                #endif
                 public static class WithArgs<TArg1, TArg2, TArg3>
                 {
                     public static readonly Func<TArg1, TArg2, TArg3, T> Create =
@@ -92,6 +112,9 @@ namespace AppCore
                             typeof(TArg3));
                 }
 
+                #if !APPCORE_SHARED_TEST_SOURCES
+                [ExcludeFromCodeCoverage]
+                #endif
                 public static class WithArgs<TArg1, TArg2, TArg3, TArg4>
                 {
                     public static readonly Func<TArg1, TArg2, TArg3, TArg4, T> Create =
@@ -104,6 +127,9 @@ namespace AppCore
                 }
             }
 
+            #if !APPCORE_SHARED_TEST_SOURCES
+            [ExcludeFromCodeCoverage]
+            #endif
             public class NonGenericTypeFactory
             {
                 private struct ArgTypes
