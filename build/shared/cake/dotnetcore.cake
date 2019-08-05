@@ -151,11 +151,14 @@ Task("DotNetCore.Test")
     CreateDirectory(testResultsDir);
     CleanDirectory(testResultsDir);
 
+    var timestamp = $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss-FFF}";
+    
     var coverletSettings = new CoverletSettings {
         CollectCoverage = p.DotNetCore.CollectCoverage,
-        CoverletOutputFormat = p.DotNetCore.CoverletOutputFormat,
+        CoverletOutputFormat = CoverletOutputFormat.json|p.DotNetCore.CoverletOutputFormat,
         CoverletOutputDirectory = Directory(testResultsDir),
-        CoverletOutputName = $"tests-{DateTime.Now:yyyy-MM-dd_HH-mm-ss-FFF}",
+        CoverletOutputName = $"tests-{timestamp}",
+        MergeWithFile = $"tests-{timestamp}.json",
         IncludeTestAssembly = true,
         Exclude = new List<string>() { "[xunit.*]*" }
     };
