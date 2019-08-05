@@ -163,11 +163,15 @@ Task("DotNetCore.Test")
         //CoverletOutputDirectory = Directory(testResultsDir),
         //CoverletOutputName = $"coverage-{timestamp}",
         IncludeTestAssembly = p.DotNetCore.CollectTestAssemblyCoverage,
-        Exclude = new List<string>() { "[xunit.*]*", "[*]*Tests" }
+        Exclude = new List<string>() { "[xunit.*]*", "[*]*Tests*" }
     };
     
     DotNetCoreTest(p.DotNetCore.TestSolution.ToString(), new DotNetCoreTestSettings
     {
+        /*
+          Hack to append the target framework for coverage output
+          https://github.com/tonerdo/coverlet/issues/177
+        */
         ArgumentCustomization = args=> args.Append($"/property:_CoverletOutput=\"{coverletOutput}\""),
         Configuration = p.Configuration,
         ResultsDirectory = testResultsDir,
