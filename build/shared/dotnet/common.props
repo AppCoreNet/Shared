@@ -1,4 +1,9 @@
 <Project>
   <Import Project="../../version.generated.props" Condition=" Exists('../../version.generated.props') " />
   <Import Project="./local-packages.props" />
+  
+  <!-- Hack to append the target framework for coverage output -->
+  <PropertyGroup Condition=" '$(_CoverletOutput)' != '' ">
+    <CoverletOutput>$(_CoverletOutput)_$(TargetFramework.Replace(".", "_"))</CoverletOutput>
+  </PropertyGroup>
 </Project>

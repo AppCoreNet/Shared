@@ -101,7 +101,7 @@ Task("DotNetCore.InitSolution.Test")
 
 Task("DotNetCore.Restore")
     .IsDependentOn("DotNetCore.InitSolution")
-    .CanBeSkipped("Restore", "DotNetCore.Restore")
+    .CanBeSkipped("Restore", "DotNetCore.Restore", "Build", "DotNetCore.Build")
     .Does<BuildParameters>(p =>
 {
     DotNetCoreRestore(p.DotNetCore.SourceSolution.ToString());
@@ -119,7 +119,7 @@ Task("DotNetCore.Build")
   .IsDependentOn("DotNetCore.InitVersion")
   .IsDependentOn("DotNetCore.InitSolution")
   .IsDependentOn("DotNetCore.Restore")
-  .CanBeSkipped("Build","DotNetCore.Build")
+  .CanBeSkipped("Build", "DotNetCore.Build")
   .Does<BuildParameters>(p =>
 {
     DotNetCoreBuild(p.DotNetCore.SourceSolution.ToString(), new DotNetCoreBuildSettings
@@ -133,7 +133,7 @@ Task("DotNetCore.Build.Test")
   .IsDependentOn("DotNetCore.InitVersion")
   .IsDependentOn("DotNetCore.InitSolution.Test")
   .IsDependentOn("DotNetCore.Restore.Test")
-  .CanBeSkipped("Build.Test","DotNetCore.Build.Test")
+  .CanBeSkipped("Build.Test", "DotNetCore.Build.Test")
   .Does<BuildParameters>(p =>
 {
     DotNetCoreBuild(p.DotNetCore.TestSolution.ToString(), new DotNetCoreBuildSettings
@@ -154,17 +154,21 @@ Task("DotNetCore.Test")
 
     var timestamp = $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss-FFF}";
     
+    var coverletOutput = System.IO.Path.GetFullPath(testResultsDir);
+    coverletOutput = System.IO.Path.Combine(coverletOutput, $"coverage-{timestamp}");
+    
     var coverletSettings = new CoverletSettings {
         CollectCoverage = p.DotNetCore.CollectCoverage,
         CoverletOutputFormat = p.DotNetCore.CoverletOutputFormat,
-        CoverletOutputDirectory = Directory(testResultsDir),
-        CoverletOutputName = $"coverage-{timestamp}",
-        IncludeTestAssembly = true,
-        Exclude = new List<string>() { "[xunit.*]*" }
+        //CoverletOutputDirectory = Directory(testResultsDir),
+        //CoverletOutputName = $"coverage-{timestamp}",
+        IncludeTestAssembly = p.DotNetCore.CollectTestAssemblyCoverage,
+        Exclude = new List<string>() { "[xunit.*]*", "[*]*Tests" }
     };
     
     DotNetCoreTest(p.DotNetCore.TestSolution.ToString(), new DotNetCoreTestSettings
     {
+        ArgumentCustomization = args=> args.Append($"/property:_CoverletOutput=\"{coverletOutput}\""),
         Configuration = p.Configuration,
         ResultsDirectory = testResultsDir,
         Logger = "trx",
