@@ -6,6 +6,10 @@ variables:
 trigger:
 - dev
 
+steps:
+- checkout: self
+  submodules: true
+
 jobs:
 - job: Linux
   pool:
