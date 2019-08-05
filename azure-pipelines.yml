@@ -22,8 +22,7 @@ jobs:
   pool:
     vmImage: 'macOS-latest'
   steps:
-  - bash: |
-    export DOTNET_ROOT="$(dirname "$(readlink "$(command -v dotnet)")")"
+  - bash: export DOTNET_ROOT="$(dirname "$(readlink "$(command -v dotnet)")")"
   - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
       configuration: $(configuration)
