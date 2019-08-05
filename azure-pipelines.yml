@@ -11,10 +11,10 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - template: build/azure-build-steps.yml
+  - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
       configuration: $(configuration)
-  - template: build/azure-publish-steps.yml
+  - template: build/shared/azure-pipelines/publish-steps.yml
     parameters:
       configuration: $(configuration)  
 
@@ -22,6 +22,6 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
-  - template: build/azure-build-steps.yml
+  - template: build/shared/azure-pipelines/build-steps.yml
     parameters:
       configuration: $(configuration)

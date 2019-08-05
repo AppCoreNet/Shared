@@ -2,9 +2,9 @@ parameters:
   configuration: 'Debug'
   
 steps:
-- pwsh: ./build.ps1 -Properties @{Configuration='${{ parameters.configuration }}'}
+- pwsh: ./build.ps1 --configuration='${{ parameters.configuration }}'
   displayName: Build
-- pwsh: ./test.ps1 -Properties @{Configuration='${{ parameters.configuration }}'; OutputDir='$(Build.ArtifactStagingDirectory)'}
+- pwsh: ./build.ps1 --target=Test --skip-target=Build --configuration='${{ parameters.configuration }}' --artifactsDir='$(Build.ArtifactStagingDirectory)'
   displayName: Run Tests
 - task: PublishTestResults@2
   displayName: Publish Test Results
