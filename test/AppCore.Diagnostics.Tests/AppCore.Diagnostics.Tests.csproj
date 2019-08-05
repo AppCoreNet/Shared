@@ -9,9 +9,9 @@
     <Compile Include="..\..\src\AppCore.Diagnostics.Sources\contentFiles\cs\any\**\*.cs" />
   </ItemGroup>
 
-  <!--ItemGroup Condition="'$(TargetFramework)'=='net452'">
+  <!-- ItemGroup Condition="'$(TargetFramework)'=='net452'">
     <Reference Include="System.Runtime" />
     <Reference Include="System.Threading.Tasks" />
-  </ItemGroup-->
+  </ItemGroup -->
   
 </Project>
