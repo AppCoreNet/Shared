@@ -108,7 +108,7 @@ Task("DotNetCore.Restore")
 
 Task("DotNetCore.Restore.Test")
     .IsDependentOn("DotNetCore.InitSolution.Test")
-    .CanBeSkipped("Restore","DotNetCore.Restore")
+    .CanBeSkipped("Restore.Test","DotNetCore.Restore.Test")
     .Does<BuildParameters>(p =>
 {
     DotNetCoreRestore(p.DotNetCore.TestSolution.ToString());
@@ -132,7 +132,7 @@ Task("DotNetCore.Build.Test")
   .IsDependentOn("DotNetCore.InitVersion")
   .IsDependentOn("DotNetCore.InitSolution.Test")
   .IsDependentOn("DotNetCore.Restore.Test")
-  .CanBeSkipped("Build","DotNetCore.Build")
+  .CanBeSkipped("Build.Test","DotNetCore.Build.Test")
   .Does<BuildParameters>(p =>
 {
     DotNetCoreBuild(p.DotNetCore.TestSolution.ToString(), new DotNetCoreBuildSettings
