@@ -19,6 +19,11 @@ function Exec {
   }
 }
 
+If ($IsMacOS) {
+  $env:DOTNET_ROOT="$(dirname "$(readlink "$(command -v dotnet)")")"
+  Write-Host $env:DOTNET_ROOT
+}
+
 If (!(Test-Path "$ToolsPath/.store/cake.tool")) {
   Exec { & dotnet tool install --tool-path $ToolsPath Cake.Tool --version $CakeVersion }
   Exec { & $Cake @CakeArgs --bootstrap }
