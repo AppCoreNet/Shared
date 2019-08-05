@@ -1,4 +1,0 @@
-[submodule "build/shared"]
-	path = build/shared
-	url = https://github.com/AppCoreNet/Build.git
-	branch = dev
