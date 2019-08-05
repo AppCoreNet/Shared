@@ -156,6 +156,7 @@ Task("DotNetCore.Test")
         CoverletOutputFormat = p.DotNetCore.CoverletOutputFormat,
         CoverletOutputDirectory = Directory(testResultsDir),
         CoverletOutputName = $"tests-{DateTime.Now:yyyy-MM-dd_HH-mm-ss-FFF}",
+        IncludeTestAssembly = true,
         Exclude = new List<string>() { "[xunit.*]*" }
     };
     

@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <Import Project="./build/shared/dotnet/common.props" />
+  <Import Project="./build/shared/dotnet/netfx.props" />
   
-  <Import Project="./build/netfx.props" />
   <Import Project="./build/sources.props" />
   <Import Project="./build/dependency-versions.props" />
 
