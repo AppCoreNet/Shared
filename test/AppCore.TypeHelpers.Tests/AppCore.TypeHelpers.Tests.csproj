@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net452</TargetFrameworks>
     <RootNamespace>AppCore</RootNamespace>
   </PropertyGroup>
 
@@ -10,9 +11,4 @@
     <Compile Include="..\..\src\AppCore.TypeHelpers.Sources\contentFiles\cs\any\**\*.cs" />
   </ItemGroup>
 
-  <!-- ItemGroup Condition="'$(TargetFramework)'=='net452'">
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Threading.Tasks" />
-  </ItemGroup -->
-  
 </Project>

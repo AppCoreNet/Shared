@@ -23,6 +23,7 @@ public class BuildParametersDotNetCore
     public string TestProjectsPattern { get; set; } = "**/test/**/*.csproj";
     
     public bool CollectCoverage { get; set; } = true;
+    public bool CollectTestAssemblyCoverage { get; set; } = false;
     public CoverletOutputFormat CoverletOutputFormat { get; set; } = CoverletOutputFormat.cobertura;
 }
 
@@ -155,10 +156,9 @@ Task("DotNetCore.Test")
     
     var coverletSettings = new CoverletSettings {
         CollectCoverage = p.DotNetCore.CollectCoverage,
-        CoverletOutputFormat = CoverletOutputFormat.json|p.DotNetCore.CoverletOutputFormat,
+        CoverletOutputFormat = p.DotNetCore.CoverletOutputFormat,
         CoverletOutputDirectory = Directory(testResultsDir),
-        CoverletOutputName = $"tests-{timestamp}",
-        MergeWithFile = $"tests-{timestamp}.json",
+        CoverletOutputName = $"coverage-{timestamp}",
         IncludeTestAssembly = true,
         Exclude = new List<string>() { "[xunit.*]*" }
     };
