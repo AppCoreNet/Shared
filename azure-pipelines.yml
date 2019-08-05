@@ -7,29 +7,6 @@ trigger:
 - dev
 
 jobs:
-- job: Linux
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - template: build/shared/azure-pipelines/build-steps.yml
-    parameters:
-      configuration: $(configuration)
-  - template: build/shared/azure-pipelines/publish-steps.yml
-    parameters:
-      configuration: $(configuration)  
-
-- job: MacOS
-  pool:
-    vmImage: 'macOS-latest'
-  steps:
-  - template: build/shared/azure-pipelines/build-steps.yml
-    parameters:
-      configuration: $(configuration)
-      
-- job: Windows
-  pool:
-    vmImage: 'windows-latest'
-  steps:
-  - template: build/shared/azure-pipelines/build-steps.yml
-    parameters:
-      configuration: $(configuration)
+- template: build/shared/azure-pipelines/jobs.yml
+  parameters:
+    configuration: $(configuration)
