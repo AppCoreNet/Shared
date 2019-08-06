@@ -6,10 +6,9 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-$ToolsPath = "./build/tools"
+$ToolsPath = Join-Path $PSScriptRoot "build" -Resolve | Join-Path -ChildPath "tools"
+$Cake = Join-Path $ToolsPath "dotnet-cake"
 $CakeVersion = "0.34.1"
-
-$Cake = "$ToolsPath/dotnet-cake"
 $CakeArgs = @("--paths_tools=$ToolsPath")
 
 function Exec {
