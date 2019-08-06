@@ -14,7 +14,9 @@ namespace AppCore
     /// <summary>
     /// Provides extension methods for the <see cref="Type"/> class.
     /// </summary>
+    #if !APPCORE_SHARED_TEST_SOURCES
     [ExcludeFromCodeCoverage]
+    #endif
     internal static class TypeExtensions
     {
         public static string GetDisplayName(this Type type)

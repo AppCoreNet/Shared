@@ -11,12 +11,5 @@
     <RestoreSources Condition=" '$(CI)'=='true' ">
       $(RestoreSources)
     </RestoreSources>
-
-    <!-- local build restore sources -->
-    <LocalPackageDirectory Condition=" '$(LocalPackageDirectory)' == '' ">$(MSBuildThisFileDirectory)/../../Packages</LocalPackageDirectory>
-    <RestoreSources Condition=" '$(CI)' != 'true' And Exists($(LocalPackageDirectory)) ">
-      $(LocalPackageDirectory);
-      $(RestoreSources)
-    </RestoreSources>
   </PropertyGroup>
 </Project>
