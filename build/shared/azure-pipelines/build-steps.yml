@@ -8,7 +8,7 @@ steps:
   displayName: Run Tests
 - task: PublishTestResults@2
   displayName: Publish Test Results
-  continueOnError: true
+  condition: always()
   inputs:
     testRunner: VSTest
     testResultsFiles: '$(Build.ArtifactStagingDirectory)/test-results/*.trx'
@@ -16,7 +16,7 @@ steps:
     buildConfiguration: ${{ parameters.configuration }}
 - task: PublishCodeCoverageResults@1
   displayName: Publish Coverage Results
-  continueOnError: true
+  condition: always()
   inputs:
     codeCoverageTool: 'cobertura'
     summaryFileLocation: '$(Build.ArtifactStagingDirectory)/test-results/*.cobertura.xml'
