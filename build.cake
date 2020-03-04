@@ -1,4 +1,4 @@
-#addin "nuget:?package=Cake.Figlet&version=1.3.0"
+#addin "nuget:?package=Cake.Figlet&version=1.3.1"
 
 #load "build/shared/cake/common.cake"
 #load "build/shared/cake/dotnetcore.cake"
@@ -11,7 +11,6 @@ Setup<BuildParameters>(context =>
    Information(Figlet("AppCore.Shared"));
    Information($"Version: {parameters.Version.InformationalVersion}");
    
-   parameters.DotNetCore.CollectTestAssemblyCoverage = true;
    return parameters;
 });
 
