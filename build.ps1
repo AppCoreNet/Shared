@@ -21,10 +21,10 @@ function Exec {
 
 # dotnet tool fails on hosted macOS agent
 # https://github.com/dotnet/cli/issues/9114
-If ($IsMacOS) {
-  $env:DOTNET_ROOT="$(dirname "$(readlink "$(command -v dotnet)")")"
-  Write-Host $env:DOTNET_ROOT
-}
+#If ($IsMacOS) {
+#  $env:DOTNET_ROOT="$(dirname "$(readlink "$(command -v dotnet)")")"
+#  Write-Host $env:DOTNET_ROOT
+#}
 
 # bootstrap cake
 If (!(Test-Path "$ToolsPath/.store/cake.tool")) {
