@@ -1,8 +1,10 @@
-﻿using FluentAssertions;
+using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Xunit;
 
 namespace AppCore
 {
+    [ExcludeFromCodeCoverage]
     public class TypeActivatorTests
     {
         class TestType
