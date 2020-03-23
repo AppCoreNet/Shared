@@ -3,6 +3,8 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 variables:
   configuration: Release
 
+pr: none
+
 trigger:
   tags:
     include:
