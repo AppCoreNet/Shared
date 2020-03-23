@@ -1,10 +1,12 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
 
 variables:
-  configuration: Debug
+  configuration: Release
 
 trigger:
-- dev
+  tags:
+    include:
+    - v*
 
 jobs:
 - template: build/shared/azure-pipelines/jobs.yml

@@ -10,8 +10,4 @@
     <Content Include="contentFiles\**\*.*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="AppCore.Diagnostics.Sources.csproj.DotSettings" />
-  </ItemGroup>
-  
 </Project>
