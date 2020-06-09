@@ -7,11 +7,10 @@ Setup<BuildParameters>(context =>
 {
    var parameters = BuildParameters.Create(Context);
    parameters.Initialize();
-   
+
    Information(Figlet("AppCore.Shared"));
    Information($"Version: {parameters.Version.InformationalVersion}");
-   
-   parameters.DotNetCore.CollectTestAssemblyCoverage = true;
+
    return parameters;
 });
 
@@ -34,5 +33,5 @@ Task("Rebuild")
 
 Task("Publish")
    .IsDependentOn("DotNetCore.Pack");
-   
+
 RunTarget(Context.Argument("target", "Build"));
