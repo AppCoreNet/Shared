@@ -11,6 +11,7 @@ Setup<BuildParameters>(context =>
    Information(Figlet("AppCore.Shared"));
    Information($"Version: {parameters.Version.InformationalVersion}");
 
+  parameters.DotNetCore.CollectTestAssemblyCoverage = true;
    return parameters;
 });
 

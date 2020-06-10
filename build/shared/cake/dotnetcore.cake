@@ -22,6 +22,7 @@ public class BuildParametersDotNetCore
     public string TestProjectsPattern { get; set; } = "**/test/**/*.csproj";
 
     public bool CollectCoverage { get; set; } = true;
+    public bool CollectTestAssemblyCoverage { get; set; } = false;
 }
 
 public bool DotNetCoreNewSolution(string solutionFile, FilePathCollection projectFiles)
@@ -154,7 +155,13 @@ Task("DotNetCore.Test")
         ArgumentCustomization = args =>
             {
                 if (p.DotNetCore.CollectCoverage)
-                    args = args.Append($"--collect:\"XPlat Code Coverage\"");
+                  args = args.Append($"--collect:\"XPlat Code Coverage\"");
+
+                if (p.DotNetCore.CollectTestAssemblyCoverage)
+                {
+                  args = args.Append("--");
+                  args = args.Append("DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.IncludeTestAssembly=true");
+                }
 
                 return args;
             },
