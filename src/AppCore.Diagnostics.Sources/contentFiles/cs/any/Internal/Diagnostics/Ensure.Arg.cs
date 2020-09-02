@@ -140,12 +140,12 @@ namespace AppCore.Diagnostics
             }
 
             /// <summary>
-            /// Ensures that the string argument does not deceed the specified minimum length.
+            /// Ensures that the string length does not fall below the minimum length.
             /// </summary>
             /// <param name="value">The <see cref="string"/> argument.</param>
             /// <param name="minLength">The required minimum length.</param>
             /// <param name="paramName">The parameter name.</param>
-            /// <exception cref="ArgumentOutOfRangeException">The string <paramref name="value"/> deceeds the minimum length.</exception>
+            /// <exception cref="ArgumentOutOfRangeException">The string length <paramref name="value"/> is below the minimum length.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void MinLength(string value, int minLength, [InvokerParameterName] [NotNull] string paramName)
             {
@@ -153,7 +153,7 @@ namespace AppCore.Diagnostics
                     throw new ArgumentOutOfRangeException(
                         paramName,
                         value.Length,
-                        $"Argument '{paramName}' deceeds minimum length of {minLength} characters.");
+                        $"Argument '{paramName}' length is below the minimum length of {minLength} characters.");
             }
 
             /// <summary>
