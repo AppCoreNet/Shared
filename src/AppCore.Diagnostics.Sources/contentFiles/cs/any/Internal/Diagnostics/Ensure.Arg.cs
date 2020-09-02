@@ -1,4 +1,4 @@
-﻿// Licensed under the MIT License.
+// Licensed under the MIT License.
 // Copyright (c) 2018 the AppCore .NET project.
 
 using System;
@@ -76,14 +76,30 @@ namespace AppCore.Diagnostics
             /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty collection.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [ContractAnnotation("value:null=>halt")]
-            public static void NotEmpty<T>(
-                IReadOnlyCollection<T> value,
-                [InvokerParameterName] [NotNull] string paramName)
+            public static void NotEmpty<T>(IReadOnlyCollection<T> value, [InvokerParameterName] [NotNull] string paramName)
             {
                 NotNull(value, paramName);
 
                 if (value.Count == 0)
                     throw new ArgumentException($"Argument '{paramName}' contains no elements.", paramName);
+            }
+
+            /// <summary>
+            /// Ensures that the value argument <paramref name="value"/> does not have the default value.
+            /// </summary>
+            /// <param name="value">The value.</param>
+            /// <param name="paramName">The parameter name.</param>
+            /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty collection.</exception>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void NotEmpty<T>(T value, [InvokerParameterName] [NotNull] string paramName)
+                where T : struct
+            {
+                bool hasDefaultValue = value is IEquatable<T> equatable
+                    ? equatable.Equals(default)
+                    : value.Equals(default(T));
+
+                if (hasDefaultValue)
+                    throw new ArgumentException($"Argument '{paramName}' must not be empty.", paramName);
             }
 
             /// <summary>
@@ -141,7 +157,8 @@ namespace AppCore.Diagnostics
             }
 
             /// <summary>
-            /// Ensures that the type argument is of the expected type.
+            /// Ensures that the type argument is of the expected type. Supports testing for
+            /// open generic types.
             /// </summary>
             /// <param name="type">The <see cref="Type"/> argument.</param>
             /// <param name="expectedType">The expected <see cref="Type"/>.</param>
@@ -176,7 +193,9 @@ namespace AppCore.Diagnostics
 
                 if (genericType.GetTypeInfo()
                                .IsAssignableFrom(givenType.GetTypeInfo()))
+                {
                     return true;
+                }
 
                 return givenType == genericType
                        || MapsToGenericTypeDefinition(givenType, genericType)
