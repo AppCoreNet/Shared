@@ -9,6 +9,9 @@ namespace AppCore
 {
     public class GenericType<T1, T2>
     {
+        public class NestedType
+        {
+        }
     }
 
     public interface IGenericInterface<T1, T2>
@@ -17,6 +20,13 @@ namespace AppCore
 
     public class ClosedGenericType : GenericType<string, char>, IGenericInterface<string, char>
     {
+    }
+
+    public class TypeWithNestedType
+    {
+        public class NestedType
+        {
+        }
     }
 
     [ExcludeFromCodeCoverage]
@@ -28,6 +38,23 @@ namespace AppCore
             typeof(string).GetDisplayName()
                           .Should()
                           .Be("System.String");
+        }
+
+        [Fact]
+        public void GetDisplayNameNestedTypeFormatsName()
+        {
+            typeof(TypeWithNestedType.NestedType).GetDisplayName()
+                                      .Should()
+                                      .Be("AppCore.TypeWithNestedType.NestedType");
+        }
+
+        
+        [Fact]
+        public void GetDisplayNameGenericNestedTypeFormatsName()
+        {
+            typeof(GenericType<,>.NestedType).GetDisplayName()
+                                             .Should()
+                                             .Be("AppCore.GenericType<T1,T2>.NestedType");
         }
 
         [Fact]
