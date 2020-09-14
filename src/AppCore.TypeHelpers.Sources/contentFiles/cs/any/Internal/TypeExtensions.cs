@@ -49,7 +49,7 @@ namespace AppCore
 
             void BuildTypeName(StringBuilder sb, TypeInfo typeInfo)
             {
-                if (typeInfo.IsGenericType && typeInfo.Name.Contains('`'))
+                if (typeInfo.IsGenericType && typeInfo.Name.Contains("`"))
                 {
                     string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
                     sb.Append(typeName);
