@@ -1,4 +1,4 @@
-﻿// Licensed under the MIT License.
+// Licensed under the MIT License.
 // Copyright (c) 2018 the AppCore .NET project.
 
 using System;
@@ -41,6 +41,12 @@ namespace AppCore.Diagnostics
             }
 
             [Fact]
+            public void NotNullDoesNotThrowWhenNotNull()
+            {
+               Ensure.Arg.NotNull("test string", "param");
+            }
+
+            [Fact]
             public void NotEmptyThrowsWhenNull()
             {
                 var exception = Assert.Throws<ArgumentNullException>(
@@ -48,6 +54,22 @@ namespace AppCore.Diagnostics
 
                 exception.ParamName.Should()
                          .Be("param");
+            }
+
+            [Fact]
+            public void NotEmptyThrowsWhenDefault()
+            {
+                var exception = Assert.Throws<ArgumentException>(
+                    () => Ensure.Arg.NotEmpty(Guid.Empty, "param"));
+
+                exception.ParamName.Should()
+                         .Be("param");
+            }
+
+            [Fact]
+            public void NotEmptyDoesNotThrowWhenNotDefault()
+            {
+                Ensure.Arg.NotEmpty(Guid.NewGuid(), "param");
             }
 
             [InlineData("")]

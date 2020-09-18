@@ -1,4 +1,4 @@
-﻿// Licensed under the MIT License.
+// Licensed under the MIT License.
 // Copyright (c) 2018 the AppCore .NET project.
 
 using System;
@@ -32,15 +32,37 @@ namespace AppCore
         {
             void BuildTypeArguments(StringBuilder sb, Type[] typeArguments)
             {
-                builder.Append("<");
-                for (int i = 0; i < typeArguments.Length; i++)
+                if (typeArguments.Length > 0)
                 {
-                    Type typeArgument = typeArguments[i];
-                    BuildDisplayName(sb, typeArgument);
-                    if (i + 1 < typeArguments.Length)
-                        sb.Append(',');
+                    builder.Append("<");
+                    for (int i = 0; i < typeArguments.Length; i++)
+                    {
+                        Type typeArgument = typeArguments[i];
+                        BuildDisplayName(sb, typeArgument);
+                        if (i + 1 < typeArguments.Length)
+                            sb.Append(',');
+                    }
+
+                    builder.Append(">");
                 }
-                builder.Append(">");
+            }
+
+            void BuildTypeName(StringBuilder sb, TypeInfo typeInfo)
+            {
+                if (typeInfo.IsGenericType && typeInfo.Name.Contains("`"))
+                {
+                    string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
+                    sb.Append(typeName);
+                    BuildTypeArguments(
+                        builder,
+                        !typeInfo.IsGenericTypeDefinition
+                            ? typeInfo.GenericTypeArguments
+                            : typeInfo.GenericTypeParameters);
+                }
+                else
+                {
+                    sb.Append(typeInfo.Name);
+                }
             }
 
             TypeInfo typeInfo = type.GetTypeInfo();
@@ -51,20 +73,13 @@ namespace AppCore
                 builder.Append(".");
             }
 
-            if (typeInfo.IsGenericType)
+            if (typeInfo.IsNested && !typeInfo.IsGenericParameter)
             {
-                string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
-                builder.Append(typeName);
-                BuildTypeArguments(
-                    builder,
-                    !typeInfo.IsGenericTypeDefinition
-                        ? typeInfo.GenericTypeArguments
-                        : typeInfo.GenericTypeParameters);
+                BuildTypeName(builder, typeInfo.DeclaringType.GetTypeInfo());
+                builder.Append(".");
             }
-            else
-            {
-                builder.Append(typeInfo.Name);
-            }
+
+            BuildTypeName(builder, typeInfo);
         }
 
         /// <summary>
