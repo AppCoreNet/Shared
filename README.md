@@ -22,22 +22,78 @@ Package                           | Description
 `AppCore.Diagnostics.Sources` | Provides static classes to ensure program contracts.
 `AppCore.TypeHelpers.Sources` | Includes extensions for `Type` and `Assembly` and a fast activator for types.
 
-### Diagnostics
-
-This package includes static classes to ensure program contracts such as pre-conditions, post-conditions and
-invariants.
-
-Note that the package also includes annotations for ReSharper. If you want to bring your own you can disable
-them by defining the compilation symbol `APPCORE_DISABLE_RESHARPER_ANNOTATIONS`.
-
-### TypeHelpers
-
-Includes various extensions for the `Type` and `Assembly` classes to make your live easier when working
-with open generic types. Also provides a fast activator (factory) for dynamically instantiating types.
-
 ## Contributing
 
 Contributions, whether you file an issue, fix some bug or implement a new feature, are highly appreciated. The whole user community
 will benefit from them.
 
 Please refer to the [Contribution guide](CONTRIBUTING.md).
+
+# Usage
+
+## Diagnostics
+
+This package includes static classes to ensure program contracts such as pre-conditions, post-conditions and
+invariants.
+
+### Pre-conditions
+
+Ensuring that some argument is not null:
+```csharp
+public void SomeMethod(object obj)
+{
+    // this will throw 'ArgumentNullException' if 'obj' is null
+    Ensure.Arg.NotNull(obj, nameof(obj));
+}
+```
+
+Ensuring that some string argument is not null or empty/only whitespace:
+```csharp
+public void SomeMethod(string str)
+{
+    // this will throw 'ArgumentNullException' or 'ArgumentException' if 'str' is null or empty
+    Ensure.Arg.NotEmpty(str, nameof(str));
+}
+```
+
+Ensuring that some value argument is in range:
+```csharp
+public void SomeMethod(int val)
+{
+    // this will throw or 'ArgumentOutOfRangeException' if 'val' is < 0 || > 10
+    Ensure.Arg.InRange(val, 0, 10, nameof(val));
+}
+```
+
+Other pre-condition checks are available: `Ensure.Arg.MinLength()`, `Ensure.Arg.MaxLength()`
+
+Note that the package also includes annotations for ReSharper. If you want to bring your own you can disable
+them by defining the compilation symbol `APPCORE_DISABLE_RESHARPER_ANNOTATIONS`.
+
+## TypeHelpers
+
+Includes various extensions for the `Type` and `Assembly` classes to make your live easier when working
+with open generic types. Also provides a fast activator (factory) for dynamically instantiating types.
+
+Getting friendly type name for display, supports generics:
+```csharp
+class MyType<T> { }
+typeof(MyType<>).GetDisplayName() // returns 'MyNamespace.MyType<T>'
+```
+
+Creating an instance of a type:
+
+```csharp
+// creates an instance of 'MyType' with default constructor
+TypeActivator.CreateInstance<MyType>()
+
+// alternatively (if the Type is not known at compile time):
+TypeActivator.CreateInstance(typeof(MyType))
+```
+
+Checking if some type implements generic type:
+
+```csharp
+clas StringList : List<string> { }
+typeof(StringList).IsClosedTypeOf(typeof(List<>))
+```
