@@ -1,4 +1,4 @@
-﻿/* MIT License
+/* MIT License
 
 Copyright (c) 2016 JetBrains http://www.jetbrains.com
 
@@ -54,7 +54,7 @@ namespace JetBrains.Annotations
   [ExcludeFromCodeCoverage]
 internal sealed class CanBeNullAttribute : Attribute { }
 
-#if !NETSTANDARD2_1 && !NETCOREAPP3_0 && !NETCOREAPP3_1
+#if !NETSTANDARD2_1 && !NETCOREAPP3_0 && !NETCOREAPP3_1 && !NETCOREAPP3_0_OR_GREATER
   /// <summary>
   /// Indicates that the value of the marked element could never be <c>null</c>.
   /// </summary>

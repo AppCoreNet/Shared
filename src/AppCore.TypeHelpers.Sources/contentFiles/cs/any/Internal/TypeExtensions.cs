@@ -47,39 +47,33 @@ namespace AppCore
                 }
             }
 
-            void BuildTypeName(StringBuilder sb, TypeInfo typeInfo)
+            void BuildTypeName(StringBuilder sb, Type type)
             {
-                if (typeInfo.IsGenericType && typeInfo.Name.Contains("`"))
+                if (type.IsGenericType && type.Name.Contains("`"))
                 {
-                    string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
+                    string typeName = type.Name.Substring(0, type.Name.Length - 2);
                     sb.Append(typeName);
-                    BuildTypeArguments(
-                        builder,
-                        !typeInfo.IsGenericTypeDefinition
-                            ? typeInfo.GenericTypeArguments
-                            : typeInfo.GenericTypeParameters);
+                    BuildTypeArguments(builder, type.GetGenericArguments());
                 }
                 else
                 {
-                    sb.Append(typeInfo.Name);
+                    sb.Append(type.Name);
                 }
             }
 
-            TypeInfo typeInfo = type.GetTypeInfo();
-
-            if (!typeInfo.IsGenericParameter)
+            if (!type.IsGenericParameter)
             {
-                builder.Append(typeInfo.Namespace);
+                builder.Append(type.Namespace);
                 builder.Append(".");
             }
 
-            if (typeInfo.IsNested && !typeInfo.IsGenericParameter)
+            if (type.IsNested && !type.IsGenericParameter)
             {
-                BuildTypeName(builder, typeInfo.DeclaringType.GetTypeInfo());
+                BuildTypeName(builder, type.DeclaringType);
                 builder.Append(".");
             }
 
-            BuildTypeName(builder, typeInfo);
+            BuildTypeName(builder, type);
         }
 
         /// <summary>
@@ -99,10 +93,10 @@ namespace AppCore
         {
             yield return type;
 
-            if (type.GetTypeInfo().BaseType != null)
+            if (type.BaseType != null)
             {
-                yield return type.GetTypeInfo().BaseType;
-                foreach (Type fromBase in GetBagOfTypesAssignableFrom(type.GetTypeInfo().BaseType))
+                yield return type.BaseType;
+                foreach (Type fromBase in GetBagOfTypesAssignableFrom(type.BaseType))
                     yield return fromBase;
             }
             else
@@ -111,7 +105,7 @@ namespace AppCore
                     yield return typeof(object);
             }
 
-            foreach (Type ifce in type.GetTypeInfo().ImplementedInterfaces)
+            foreach (Type ifce in type.GetInterfaces())
             {
                 if (ifce != type)
                 {
@@ -149,11 +143,11 @@ namespace AppCore
             Ensure.Arg.NotNull(type, nameof(type));
             Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
 
-            if (type.GetTypeInfo().ContainsGenericParameters)
+            if (type.ContainsGenericParameters)
                 return null;
 
             return type.GetTypesAssignableFrom()
-                .FirstOrDefault(t => t.GetTypeInfo().IsGenericType
+                .FirstOrDefault(t => t.IsGenericType
                                      && t.GetGenericTypeDefinition() == openGeneric);
         }
 
