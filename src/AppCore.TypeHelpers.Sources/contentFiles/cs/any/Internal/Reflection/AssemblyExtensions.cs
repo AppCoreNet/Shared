@@ -34,5 +34,25 @@ namespace AppCore.Reflection
                                t => t.GetTypesAssignableFrom(true)
                                      .Contains(type));
         }
+
+        /// <summary>
+        /// Gets all exported types defined in the given <paramref name="assembly"/> which assignable from the specified <paramref name="type"/>.
+        /// </summary>
+        /// <remarks>
+        /// This methods supports open generics.
+        /// </remarks>
+        /// <param name="assembly"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetExportedTypesAssignableFrom(this Assembly assembly, Type type)
+        {
+            Ensure.Arg.NotNull(assembly, nameof(assembly));
+            Ensure.Arg.NotNull(type, nameof(type));
+
+            return assembly.GetExportedTypes()
+                           .Where(
+                               t => t.GetTypesAssignableFrom(true)
+                                     .Contains(type));
+        }
     }
 }
