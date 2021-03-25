@@ -1,4 +1,4 @@
-﻿// Licensed under the MIT License.
+// Licensed under the MIT License.
 // Copyright (c) 2018 the AppCore .NET project.
 
 using System;
@@ -15,13 +15,24 @@ namespace AppCore.Reflection
     #endif
     internal static class AssemblyExtensions
     {
-        public static IEnumerable<Type> GetExportedClosedTypesOf(this Assembly assembly, Type openGeneric)
+        /// <summary>
+        /// Gets all types defined in the given <paramref name="assembly"/> which assignable from the specified <paramref name="type"/>.
+        /// </summary>
+        /// <remarks>
+        /// This methods supports open generics.
+        /// </remarks>
+        /// <param name="assembly"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypesAssignableFrom(this Assembly assembly, Type type)
         {
             Ensure.Arg.NotNull(assembly, nameof(assembly));
-            Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
+            Ensure.Arg.NotNull(type, nameof(type));
 
-            return assembly.ExportedTypes
-                           .Where(t => t.IsClosedTypeOf(openGeneric));
+            return assembly.GetTypes()
+                           .Where(
+                               t => t.GetTypesAssignableFrom(true)
+                                     .Contains(type));
         }
     }
 }

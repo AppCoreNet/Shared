@@ -80,39 +80,40 @@ namespace AppCore
         /// Gets all types assignable from the specified <paramref name="type"/>.
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="includeGenericTypeDefinitions"></param>
         /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
-        public static IEnumerable<Type> GetTypesAssignableFrom(this Type type)
+        public static IEnumerable<Type> GetTypesAssignableFrom(this Type type, bool includeGenericTypeDefinitions = false)
         {
             Ensure.Arg.NotNull(type, nameof(type));
 
-            return GetBagOfTypesAssignableFrom(type)
-                .Distinct();
+            var assignableTypes = new List<Type>();
+            GetBagOfTypesAssignableFrom(type, assignableTypes, includeGenericTypeDefinitions);
+            return assignableTypes;
         }
 
-        private static IEnumerable<Type> GetBagOfTypesAssignableFrom(Type type)
+        private static void GetBagOfTypesAssignableFrom(Type type, List<Type> assignableType, bool includeGenericTypeDefinitions = false)
         {
-            yield return type;
+            if (assignableType.Contains(type))
+                return;
+
+            assignableType.Add(type);
+
+            if (type == typeof(object))
+                return;
 
             if (type.BaseType != null)
             {
-                yield return type.BaseType;
-                foreach (Type fromBase in GetBagOfTypesAssignableFrom(type.BaseType))
-                    yield return fromBase;
-            }
-            else
-            {
-                if (type != typeof(object))
-                    yield return typeof(object);
+                GetBagOfTypesAssignableFrom(type.BaseType, assignableType, includeGenericTypeDefinitions);
             }
 
             foreach (Type ifce in type.GetInterfaces())
             {
-                if (ifce != type)
-                {
-                    yield return ifce;
-                    foreach (Type fromIfce in GetBagOfTypesAssignableFrom(ifce))
-                        yield return fromIfce;
-                }
+                GetBagOfTypesAssignableFrom(ifce, assignableType, includeGenericTypeDefinitions);
+            }
+
+            if (includeGenericTypeDefinitions && type.IsGenericType && !type.IsGenericTypeDefinition)
+            {
+                GetBagOfTypesAssignableFrom(type.GetGenericTypeDefinition(), assignableType, true);
             }
         }
 
