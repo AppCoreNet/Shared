@@ -1,5 +1,5 @@
 // Licensed under the MIT License.
-// Copyright (c) 2018 the AppCore .NET project.
+// Copyright (c) 2018-2020 the AppCore .NET project.
 
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
@@ -98,6 +98,20 @@ namespace AppCore
                                          typeof(ClosedGenericType),
                                          typeof(GenericType<string, char>),
                                          typeof(IGenericInterface<string, char>),
+                                         typeof(object));
+        }
+
+        [Fact]
+        public void GetTypesAssignableFromReturnsInheritedTypesAndImplementedInterfacesAndOpenGenerics()
+        {
+            typeof(ClosedGenericType).GetTypesAssignableFrom(true)
+                                     .Should()
+                                     .BeEquivalentTo(
+                                         typeof(ClosedGenericType),
+                                         typeof(GenericType<string, char>),
+                                         typeof(GenericType<,>),
+                                         typeof(IGenericInterface<string, char>),
+                                         typeof(IGenericInterface<,>),
                                          typeof(object));
         }
     }

@@ -47,78 +47,73 @@ namespace AppCore
                 }
             }
 
-            void BuildTypeName(StringBuilder sb, TypeInfo typeInfo)
+            void BuildTypeName(StringBuilder sb, Type type)
             {
-                if (typeInfo.IsGenericType && typeInfo.Name.Contains("`"))
+                if (type.IsGenericType && type.Name.Contains("`"))
                 {
-                    string typeName = typeInfo.Name.Substring(0, typeInfo.Name.Length - 2);
+                    string typeName = type.Name.Substring(0, type.Name.Length - 2);
                     sb.Append(typeName);
-                    BuildTypeArguments(
-                        builder,
-                        !typeInfo.IsGenericTypeDefinition
-                            ? typeInfo.GenericTypeArguments
-                            : typeInfo.GenericTypeParameters);
+                    BuildTypeArguments(builder, type.GetGenericArguments());
                 }
                 else
                 {
-                    sb.Append(typeInfo.Name);
+                    sb.Append(type.Name);
                 }
             }
 
-            TypeInfo typeInfo = type.GetTypeInfo();
-
-            if (!typeInfo.IsGenericParameter)
+            if (!type.IsGenericParameter)
             {
-                builder.Append(typeInfo.Namespace);
+                builder.Append(type.Namespace);
                 builder.Append(".");
             }
 
-            if (typeInfo.IsNested && !typeInfo.IsGenericParameter)
+            if (type.IsNested && !type.IsGenericParameter)
             {
-                BuildTypeName(builder, typeInfo.DeclaringType.GetTypeInfo());
+                BuildTypeName(builder, type.DeclaringType);
                 builder.Append(".");
             }
 
-            BuildTypeName(builder, typeInfo);
+            BuildTypeName(builder, type);
         }
 
         /// <summary>
         /// Gets all types assignable from the specified <paramref name="type"/>.
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="includeGenericTypeDefinitions"></param>
         /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
-        public static IEnumerable<Type> GetTypesAssignableFrom(this Type type)
+        public static IEnumerable<Type> GetTypesAssignableFrom(this Type type, bool includeGenericTypeDefinitions = false)
         {
             Ensure.Arg.NotNull(type, nameof(type));
 
-            return GetBagOfTypesAssignableFrom(type)
-                .Distinct();
+            var assignableTypes = new List<Type>();
+            GetBagOfTypesAssignableFrom(type, assignableTypes, includeGenericTypeDefinitions);
+            return assignableTypes;
         }
 
-        private static IEnumerable<Type> GetBagOfTypesAssignableFrom(Type type)
+        private static void GetBagOfTypesAssignableFrom(Type type, List<Type> assignableType, bool includeGenericTypeDefinitions = false)
         {
-            yield return type;
+            if (assignableType.Contains(type))
+                return;
 
-            if (type.GetTypeInfo().BaseType != null)
+            assignableType.Add(type);
+
+            if (type == typeof(object))
+                return;
+
+            if (type.BaseType != null)
             {
-                yield return type.GetTypeInfo().BaseType;
-                foreach (Type fromBase in GetBagOfTypesAssignableFrom(type.GetTypeInfo().BaseType))
-                    yield return fromBase;
-            }
-            else
-            {
-                if (type != typeof(object))
-                    yield return typeof(object);
+                GetBagOfTypesAssignableFrom(type.BaseType, assignableType, includeGenericTypeDefinitions);
             }
 
-            foreach (Type ifce in type.GetTypeInfo().ImplementedInterfaces)
+            foreach (Type ifce in type.GetInterfaces())
             {
-                if (ifce != type)
-                {
-                    yield return ifce;
-                    foreach (Type fromIfce in GetBagOfTypesAssignableFrom(ifce))
-                        yield return fromIfce;
-                }
+                GetBagOfTypesAssignableFrom(ifce, assignableType, includeGenericTypeDefinitions);
+            }
+
+            if (includeGenericTypeDefinitions && type.IsGenericType && !type.IsGenericTypeDefinition)
+            {
+                GetBagOfTypesAssignableFrom(type.GetGenericTypeDefinition(), assignableType, true);
             }
         }
 
@@ -149,11 +144,11 @@ namespace AppCore
             Ensure.Arg.NotNull(type, nameof(type));
             Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
 
-            if (type.GetTypeInfo().ContainsGenericParameters)
+            if (type.ContainsGenericParameters)
                 return null;
 
             return type.GetTypesAssignableFrom()
-                .FirstOrDefault(t => t.GetTypeInfo().IsGenericType
+                .FirstOrDefault(t => t.IsGenericType
                                      && t.GetGenericTypeDefinition() == openGeneric);
         }
 
