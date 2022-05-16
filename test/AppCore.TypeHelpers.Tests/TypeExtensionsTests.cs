@@ -48,7 +48,7 @@ namespace AppCore
                                       .Be("AppCore.TypeWithNestedType.NestedType");
         }
 
-        
+
         [Fact]
         public void GetDisplayNameGenericNestedTypeFormatsName()
         {
@@ -95,10 +95,13 @@ namespace AppCore
             typeof(ClosedGenericType).GetTypesAssignableFrom()
                                      .Should()
                                      .BeEquivalentTo(
-                                         typeof(ClosedGenericType),
-                                         typeof(GenericType<string, char>),
-                                         typeof(IGenericInterface<string, char>),
-                                         typeof(object));
+                                         new[]
+                                         {
+                                             typeof(ClosedGenericType),
+                                             typeof(GenericType<string, char>),
+                                             typeof(IGenericInterface<string, char>),
+                                             typeof(object)
+                                         });
         }
 
         [Fact]
@@ -107,12 +110,15 @@ namespace AppCore
             typeof(ClosedGenericType).GetTypesAssignableFrom(true)
                                      .Should()
                                      .BeEquivalentTo(
-                                         typeof(ClosedGenericType),
-                                         typeof(GenericType<string, char>),
-                                         typeof(GenericType<,>),
-                                         typeof(IGenericInterface<string, char>),
-                                         typeof(IGenericInterface<,>),
-                                         typeof(object));
+                                         new[]
+                                         {
+                                             typeof(ClosedGenericType),
+                                             typeof(GenericType<string, char>),
+                                             typeof(GenericType<,>),
+                                             typeof(IGenericInterface<string, char>),
+                                             typeof(IGenericInterface<,>),
+                                             typeof(object)
+                                         });
         }
     }
 }
