@@ -6,6 +6,5 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>
     <DevelopmentDependency>true</DevelopmentDependency>
-    <NoWarn>$(NoWarn);NU5128</NoWarn>
   </PropertyGroup>
 </Project>
