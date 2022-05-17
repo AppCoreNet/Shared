@@ -23,6 +23,8 @@ SOFTWARE. */
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+#nullable disable
+
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global

@@ -1,5 +1,5 @@
 // Licensed under the MIT License.
-// Copyright (c) 2018 the AppCore .NET project.
+// Copyright (c) 2018-2022 the AppCore .NET project.
 
 using System;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace AppCore
 
             if (type.IsNested && !type.IsGenericParameter)
             {
-                BuildTypeName(builder, type.DeclaringType);
+                BuildTypeName(builder, type.DeclaringType!);
                 builder.Append(".");
             }
 
@@ -126,7 +126,7 @@ namespace AppCore
         /// <exception cref="InvalidCastException">The specified type does not implement the generic type.</exception>
         public static Type GetClosedTypeOf(this Type type, Type openGeneric)
         {
-            Type result = type.FindClosedTypeOf(openGeneric);
+            Type? result = type.FindClosedTypeOf(openGeneric);
             if (result == null)
                 throw new InvalidCastException($"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
 
@@ -139,7 +139,7 @@ namespace AppCore
         /// <param name="type">The type to inspect.</param>
         /// <param name="openGeneric">The open generic type which should be implemented.</param>
         /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
-        public static Type FindClosedTypeOf(this Type type, Type openGeneric)
+        public static Type? FindClosedTypeOf(this Type type, Type openGeneric)
         {
             Ensure.Arg.NotNull(type, nameof(type));
             Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));
