@@ -9,6 +9,7 @@
     <RepositoryUrl>https://github.com/AppCoreNet/Shared</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <!--
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -18,7 +19,7 @@
 
   <Import Project="./build/shared/dotnet/common.props" />
   <Import Project="./build/shared/dotnet/netfx.props" />
-  
+
   <Import Project="./build/sources.props" />
   <Import Project="./build/dependency-versions.props" />
 

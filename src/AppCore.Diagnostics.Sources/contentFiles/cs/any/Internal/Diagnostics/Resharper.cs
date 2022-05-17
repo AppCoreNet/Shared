@@ -41,7 +41,7 @@ namespace JetBrains.Annotations
   /// </summary>
   /// <example><code>
   /// [CanBeNull] object Test() => null;
-  /// 
+  ///
   /// void UseTest() {
   ///   var p = Test();
   ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
@@ -53,23 +53,6 @@ namespace JetBrains.Annotations
     AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
   [ExcludeFromCodeCoverage]
 internal sealed class CanBeNullAttribute : Attribute { }
-
-#if !NETSTANDARD2_1 && !NETCOREAPP3_0 && !NETCOREAPP3_1 && !NETCOREAPP3_0_OR_GREATER
-  /// <summary>
-  /// Indicates that the value of the marked element could never be <c>null</c>.
-  /// </summary>
-  /// <example><code>
-  /// [NotNull] object Foo() {
-  ///   return null; // Warning: Possible 'null' assignment
-  /// }
-  /// </code></example>
-  [AttributeUsage(
-    AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
-    AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event |
-    AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
-  [ExcludeFromCodeCoverage]
-  internal sealed class NotNullAttribute : Attribute { }
-#endif
 
     /// <summary>
     /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
@@ -101,7 +84,7 @@ internal sealed class CanBeNullAttribute : Attribute { }
   /// <example><code>
   /// [StringFormatMethod("message")]
   /// void ShowError(string message, params object[] args) { /* do something */ }
-  /// 
+  ///
   /// void Foo() {
   ///   ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
   /// }
@@ -174,12 +157,12 @@ internal sealed class CanBeNullAttribute : Attribute { }
   /// <example><code>
   /// public class Foo : INotifyPropertyChanged {
   ///   public event PropertyChangedEventHandler PropertyChanged;
-  /// 
+  ///
   ///   [NotifyPropertyChangedInvocator]
   ///   protected virtual void NotifyChanged(string propertyName) { ... }
   ///
   ///   string _name;
-  /// 
+  ///
   ///   public string Name {
   ///     get { return _name; }
   ///     set { _name = value; NotifyChanged("LastName"); /* Warning */ }
@@ -244,7 +227,7 @@ internal sealed class CanBeNullAttribute : Attribute { }
   /// // A method that returns null if the parameter is null,
   /// // and not null if the parameter is not null
   /// [ContractAnnotation("null =&gt; null; notnull =&gt; notnull")]
-  /// public object Transform(object data) 
+  /// public object Transform(object data)
   /// </code></item>
   /// <item><code>
   /// [ContractAnnotation("=&gt; true, result: notnull; =&gt; false, result: null")]
@@ -301,7 +284,7 @@ internal sealed class CanBeNullAttribute : Attribute { }
   /// <example><code>
   /// [CannotApplyEqualityOperator]
   /// class NoEquality { }
-  /// 
+  ///
   /// class UsesNoEquality {
   ///   void Test() {
   ///     var ca1 = new NoEquality();
@@ -323,7 +306,7 @@ internal sealed class CanBeNullAttribute : Attribute { }
   /// <example><code>
   /// [BaseTypeRequired(typeof(IComponent)] // Specify requirement
   /// class ComponentAttribute : Attribute { }
-  /// 
+  ///
   /// [Component] // ComponentAttribute requires implementing IComponent interface
   /// class MyComponent : IComponent { }
   /// </code></example>
@@ -461,7 +444,7 @@ internal enum ImplicitUseTargetFlags
   /// </summary>
   /// <example><code>
   /// [Pure] int Multiply(int x, int y) => x * y;
-  /// 
+  ///
   /// void M() {
   ///   Multiply(123, 42); // Waring: Return value of pure method is not used
   /// }
@@ -495,7 +478,7 @@ internal enum ImplicitUseTargetFlags
   /// <example><code>
   /// class Foo {
   ///   [ProvidesContext] IBarService _barService = ...;
-  /// 
+  ///
   ///   void ProcessNode(INode node) {
   ///     DoSomething(node, node.GetGlobalServices().Bar);
   ///     //              ^ Warning: use value of '_barService' field
@@ -774,7 +757,7 @@ internal enum ImplicitUseTargetFlags
 
   /// <summary>
   /// ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
-  /// Use this attribute for custom wrappers similar to 
+  /// Use this attribute for custom wrappers similar to
   /// <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
@@ -868,7 +851,7 @@ internal enum ImplicitUseTargetFlags
 
   /// <summary>
   /// Razor attribute. Indicates that a parameter or a method is a Razor section.
-  /// Use this attribute for custom wrappers similar to 
+  /// Use this attribute for custom wrappers similar to
   /// <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>.
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
@@ -906,7 +889,7 @@ internal enum CollectionAccessType
 
   /// <summary>
   /// Indicates that the marked method is assertion method, i.e. it halts control flow if
-  /// one of the conditions is satisfied. To set the condition, mark one of the parameters with 
+  /// one of the conditions is satisfied. To set the condition, mark one of the parameters with
   /// <see cref="AssertionConditionAttribute"/> attribute.
   /// </summary>
   [AttributeUsage(AttributeTargets.Method)]
@@ -1117,7 +1100,7 @@ internal enum AssertionConditionType
       [NotNull] public string BaseType { get; private set; }
       [CanBeNull] public string PageName { get; private set; }
   }
-    
+
   [AttributeUsage(AttributeTargets.Method)]
   [ExcludeFromCodeCoverage]
   internal sealed class RazorHelperCommonAttribute : Attribute { }

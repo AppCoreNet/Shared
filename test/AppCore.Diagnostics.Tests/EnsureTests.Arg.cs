@@ -34,7 +34,7 @@ namespace AppCore.Diagnostics
             public void NotNullThrowsWhenNull()
             {
                 var exception = Assert.Throws<ArgumentNullException>(
-                    () => Ensure.Arg.NotNull((string)null, "param"));
+                    () => Ensure.Arg.NotNull((string)null!, "param"));
 
                 exception.ParamName.Should()
                          .Be("param");
@@ -101,7 +101,7 @@ namespace AppCore.Diagnostics
             public void NotEmptyThrowsForNullCollection()
             {
                 var exception = Assert.Throws<ArgumentNullException>(
-                    () => Ensure.Arg.NotEmpty((IReadOnlyCollection<string>)null, "param"));
+                    () => Ensure.Arg.NotEmpty((IReadOnlyCollection<string>)null!, "param"));
 
                 exception.ParamName.Should()
                          .Be("param");
