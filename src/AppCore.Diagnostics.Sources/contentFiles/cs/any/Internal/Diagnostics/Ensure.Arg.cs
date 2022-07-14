@@ -30,11 +30,17 @@ namespace AppCore.Diagnostics
             /// <exception cref="ArgumentNullException">The <paramref name="value"/> is <c>null</c>.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [ContractAnnotation("value:null=>halt")]
-            public static void NotNull<T>([NoEnumeration] T value, [InvokerParameterName] [NotNull] string paramName)
+            public static void NotNull<T>([NotNull] [NoEnumeration] T? value,
+                                          [CallerArgumentExpression("value")]
+                                          string? paramName = null)
             {
-                if (value == null)
-                    throw new ArgumentNullException(paramName);
+                if (value is null)
+                    ThrowArgumentNullException(paramName);
             }
+
+            [DoesNotReturn]
+            private static void ThrowArgumentNullException(string? paramName)
+                => throw new ArgumentNullException(paramName);
 
             /// <summary>
             /// Ensures that the string argument <paramref name="value"/> is not <c>null</c> an empty or only whitespace string.
@@ -45,7 +51,9 @@ namespace AppCore.Diagnostics
             /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty string.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [ContractAnnotation("value:null=>halt")]
-            public static void NotEmpty(string value, [InvokerParameterName] [NotNull] string paramName)
+            public static void NotEmpty(string? value,
+                                        [CallerArgumentExpression("value")]
+                                        string? paramName = null)
             {
                 NotNull(value, paramName);
 
@@ -61,7 +69,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty string.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void NotEmptyButNull(string value, [InvokerParameterName] [NotNull] string paramName)
+            public static void NotEmptyButNull(string? value,
+                                               [CallerArgumentExpression("value")]
+                                               string? paramName = null)
             {
                 if (value != null && value.Trim().Length == 0)
                     throw new ArgumentException($"Argument '{paramName}' must not be an empty string.", paramName);
@@ -76,7 +86,9 @@ namespace AppCore.Diagnostics
             /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty collection.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             [ContractAnnotation("value:null=>halt")]
-            public static void NotEmpty<T>(IReadOnlyCollection<T> value, [InvokerParameterName] [NotNull] string paramName)
+            public static void NotEmpty<T>(IReadOnlyCollection<T>? value,
+                                           [CallerArgumentExpression("value")]
+                                           string? paramName = null)
             {
                 NotNull(value, paramName);
 
@@ -91,7 +103,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentException">The <paramref name="value"/> is an empty collection.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void NotEmpty<T>(T value, [InvokerParameterName] [NotNull] string paramName)
+            public static void NotEmpty<T>(T value,
+                                           [CallerArgumentExpression("value")]
+                                           string? paramName = null)
                 where T : struct
             {
                 bool hasDefaultValue = value is IEquatable<T> equatable
@@ -112,7 +126,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentOutOfRangeException">The value <paramref name="value"/> is out of range.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void InRange<T>(T value, T minValue, T maxValue, [InvokerParameterName] [NotNull] string paramName)
+            public static void InRange<T>(T value, T minValue, T maxValue,
+                                          [CallerArgumentExpression("value")]
+                                          string? paramName = null)
                 where T : struct, IComparable<T>
             {
                 if (value.CompareTo(minValue) < 0
@@ -130,7 +146,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentOutOfRangeException">The string <paramref name="value"/> exceeds the maximum length.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void MaxLength(string value, int maxLength, [InvokerParameterName] [NotNull] string paramName)
+            public static void MaxLength(string? value, int maxLength,
+                                         [CallerArgumentExpression("value")]
+                                         string? paramName = null)
             {
                 if (value != null && value.Length > maxLength)
                     throw new ArgumentOutOfRangeException(
@@ -147,7 +165,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentOutOfRangeException">The string length <paramref name="value"/> is below the minimum length.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void MinLength(string value, int minLength, [InvokerParameterName] [NotNull] string paramName)
+            public static void MinLength(string value, int minLength,
+                                         [CallerArgumentExpression("value")]
+                                         string? paramName = null)
             {
                 if (value != null && value.Length < minLength)
                     throw new ArgumentOutOfRangeException(
@@ -165,7 +185,9 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void OfType(Type type, Type expectedType, [InvokerParameterName] [NotNull] string paramName)
+            public static void OfType(Type? type, Type? expectedType,
+                                      [CallerArgumentExpression("type")]
+                                      string? paramName = null)
             {
                 if (!IsAssignableTo(type, expectedType))
                     throw new ArgumentException($"Argument '{paramName}' is of type '{type}' but expected to be of type '{expectedType}'.", paramName);
@@ -179,12 +201,14 @@ namespace AppCore.Diagnostics
             /// <param name="paramName">The parameter name.</param>
             /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void OfType<TExpected>(Type type, [InvokerParameterName] [NotNull] string paramName)
+            public static void OfType<TExpected>(Type? type,
+                                                 [CallerArgumentExpression("type")]
+                                                 string? paramName = null)
             {
                 OfType(type, typeof(TExpected), paramName);
             }
 
-            private static bool IsAssignableTo(Type givenType, Type genericType)
+            private static bool IsAssignableTo(Type? givenType, Type? genericType)
             {
                 if (givenType == null || genericType == null)
                 {

@@ -20,8 +20,11 @@ namespace AppCore
             IEnumerable<Type> types = assembly.GetTypesAssignableFrom(typeof(IGenericInterface<,>));
             types.Should()
                  .BeEquivalentTo(
-                     typeof(IGenericInterface<,>),
-                     typeof(ClosedGenericType));
+                     new[]
+                     {
+                         typeof(IGenericInterface<,>),
+                         typeof(ClosedGenericType)
+                     });
         }
 
         [Fact]
@@ -32,7 +35,10 @@ namespace AppCore
             IEnumerable<Type> types = assembly.GetTypesAssignableFrom(typeof(IGenericInterface<string,char>));
             types.Should()
                  .BeEquivalentTo(
-                     typeof(ClosedGenericType));
+                     new[]
+                     {
+                         typeof(ClosedGenericType)
+                     });
         }
     }
 }
