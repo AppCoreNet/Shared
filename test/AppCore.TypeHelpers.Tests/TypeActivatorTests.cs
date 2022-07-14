@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
 
+#pragma warning disable 8618
+
 namespace AppCore
 {
     [ExcludeFromCodeCoverage]
@@ -10,9 +12,9 @@ namespace AppCore
         class TestType
         {
             public int Arg1;
-            public string? Arg2;
+            public string Arg2;
             public char Arg3;
-            public object? Arg4;
+            public object Arg4;
 
             public TestType()
             {

@@ -31,6 +31,9 @@ Please refer to the [Contribution guide](CONTRIBUTING.md).
 
 # Usage
 
+Source packages do support nullable reference types for .NET Core >= 3.0. If you want to enable them for the old .NET framework
+you have to define the `ENABLE_NULLABLE` compilation symbol.
+
 ## Diagnostics
 
 This package includes static classes to ensure program contracts such as pre-conditions, post-conditions and

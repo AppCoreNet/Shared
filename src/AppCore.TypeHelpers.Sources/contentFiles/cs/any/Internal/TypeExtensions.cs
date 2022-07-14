@@ -9,6 +9,14 @@ using System.Reflection;
 using System.Text;
 using AppCore.Diagnostics;
 
+#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1 || ENABLE_NULLABLE
+    #nullable enable
+#endif
+
+#pragma warning disable 8600
+#pragma warning disable 8603
+#pragma warning disable 8604
+
 namespace AppCore
 {
     /// <summary>
@@ -47,17 +55,17 @@ namespace AppCore
                 }
             }
 
-            void BuildTypeName(StringBuilder sb, Type type)
+            void BuildTypeName(StringBuilder sb, Type displayedType)
             {
-                if (type.IsGenericType && type.Name.Contains("`"))
+                if (displayedType.IsGenericType && displayedType.Name.Contains("`"))
                 {
-                    string typeName = type.Name.Substring(0, type.Name.Length - 2);
+                    string typeName = displayedType.Name.Substring(0, displayedType.Name.Length - 2);
                     sb.Append(typeName);
-                    BuildTypeArguments(builder, type.GetGenericArguments());
+                    BuildTypeArguments(builder, displayedType.GetGenericArguments());
                 }
                 else
                 {
-                    sb.Append(type.Name);
+                    sb.Append(displayedType.Name);
                 }
             }
 
@@ -69,7 +77,7 @@ namespace AppCore
 
             if (type.IsNested && !type.IsGenericParameter)
             {
-                BuildTypeName(builder, type.DeclaringType!);
+                BuildTypeName(builder, type.DeclaringType);
                 builder.Append(".");
             }
 
@@ -126,7 +134,7 @@ namespace AppCore
         /// <exception cref="InvalidCastException">The specified type does not implement the generic type.</exception>
         public static Type GetClosedTypeOf(this Type type, Type openGeneric)
         {
-            Type? result = type.FindClosedTypeOf(openGeneric);
+            Type result = type.FindClosedTypeOf(openGeneric);
             if (result == null)
                 throw new InvalidCastException($"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
 
@@ -139,7 +147,11 @@ namespace AppCore
         /// <param name="type">The type to inspect.</param>
         /// <param name="openGeneric">The open generic type which should be implemented.</param>
         /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
+#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1 || ENABLE_NULLABLE
         public static Type? FindClosedTypeOf(this Type type, Type openGeneric)
+#else
+        public static Type FindClosedTypeOf(this Type type, Type openGeneric)
+#endif
         {
             Ensure.Arg.NotNull(type, nameof(type));
             Ensure.Arg.NotNull(openGeneric, nameof(openGeneric));

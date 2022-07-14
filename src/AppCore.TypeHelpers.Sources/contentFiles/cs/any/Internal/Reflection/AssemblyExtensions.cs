@@ -8,8 +8,12 @@ using System.Linq;
 using System.Reflection;
 using AppCore.Diagnostics;
 
+#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1 || ENABLE_NULLABLE
+    #nullable enable
+#endif
+
 namespace AppCore.Reflection
-{ 
+{
     #if !APPCORE_SHARED_TEST_SOURCES
     [ExcludeFromCodeCoverage]
     #endif
