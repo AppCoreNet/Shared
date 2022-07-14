@@ -9,6 +9,16 @@ using System.Linq.Expressions;
 using System.Reflection;
 using AppCore.Diagnostics;
 
+#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1 || ENABLE_NULLABLE
+    #nullable enable
+#endif
+
+#pragma warning disable 8600
+#pragma warning disable 8608
+#pragma warning disable 8604
+#pragma warning disable 8608
+#pragma warning disable 8618
+
 namespace AppCore
 {
     #if !APPCORE_SHARED_TEST_SOURCES
@@ -31,7 +41,7 @@ namespace AppCore
         {
             Ensure.Arg.NotNull(type, nameof(type));
 
-            ConstructorInfo? constructor = type.GetTypeInfo()
+            ConstructorInfo constructor = type.GetTypeInfo()
                                               .DeclaredConstructors.FirstOrDefault(
                                                   ci => ci.IsPublic
                                                         && ci.GetParameters()
@@ -140,7 +150,7 @@ namespace AppCore
                 }
 
                 private readonly Type _type;
-                private Func<object>? _noArgsFactory;
+                private Func<object> _noArgsFactory;
 
                 private readonly Dictionary<ArgTypes, Delegate> _argsFactories =
                     new Dictionary<ArgTypes, Delegate>();
@@ -152,14 +162,14 @@ namespace AppCore
 
                 public Func<object> WithoutArgs()
                 {
-                    return _noArgsFactory ??= GetFactoryDelegate<Func<object>>(_type);
+                    return _noArgsFactory ?? (_noArgsFactory = GetFactoryDelegate<Func<object>>(_type));
                 }
 
                 private Delegate GetOrAddFactory(ArgTypes key, Func<ArgTypes, Delegate> func)
                 {
                     lock (_argsFactories)
                     {
-                        if (!_argsFactories.TryGetValue(key, out Delegate? factory))
+                        if (!_argsFactories.TryGetValue(key, out Delegate factory))
                         {
                             factory = func(key);
                             _argsFactories.Add(key, factory);
@@ -228,7 +238,7 @@ namespace AppCore
             {
                 lock (_factories)
                 {
-                    if (!_factories.TryGetValue(type, out NonGenericTypeFactory? factory))
+                    if (!_factories.TryGetValue(type, out NonGenericTypeFactory factory))
                     {
                         factory = new NonGenericTypeFactory(type);
                         _factories.Add(type, factory);

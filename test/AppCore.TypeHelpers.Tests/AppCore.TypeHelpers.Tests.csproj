@@ -2,9 +2,27 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net6</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net462</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net462;net472</TargetFrameworks>
     <RootNamespace>AppCore</RootNamespace>
     <DefineConstants>$(DefineConstants);APPCORE_SHARED_TEST_SOURCES</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Run tests for .NET Core 3.1 without nullable -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='netcoreapp3.1'">
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <!-- Run tests for .NET 4.6 without nullable -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net462'">
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <!-- Run tests for .NET 4.7 with nullable -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net472'">
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <DefineConstants>$(DefineConstants);ENABLE_NULLABLE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

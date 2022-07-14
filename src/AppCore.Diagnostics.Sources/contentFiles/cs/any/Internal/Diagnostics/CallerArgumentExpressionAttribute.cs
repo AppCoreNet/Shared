@@ -3,7 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-#if !NETCOREAPP3_0_OR_GREATER
+#if !NETCOREAPP3_0_OR_GREATER || ENABLE_NULLABLE
 
 namespace System.Runtime.CompilerServices
 {
