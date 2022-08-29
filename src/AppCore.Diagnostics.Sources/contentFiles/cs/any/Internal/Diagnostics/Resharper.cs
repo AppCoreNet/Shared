@@ -55,6 +55,23 @@ namespace JetBrains.Annotations
   [ExcludeFromCodeCoverage]
 internal sealed class CanBeNullAttribute : Attribute { }
 
+#if !NETCOREAPP3_0_OR_GREATER && !NETSTANDARD2_1 && !ENABLE_NULLABLE
+  /// <summary>
+  /// Indicates that the value of the marked element could never be <c>null</c>.
+  /// </summary>
+  /// <example><code>
+  /// [NotNull] object Foo() {
+  ///   return null; // Warning: Possible 'null' assignment
+  /// }
+  /// </code></example>
+  [AttributeUsage(
+      AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
+      AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event |
+      AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
+  [ExcludeFromCodeCoverage]
+  internal sealed class NotNullAttribute : Attribute { }
+#endif
+
     /// <summary>
     /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
     /// and Lazy classes to indicate that the value of a collection item, of the Task.Result property
