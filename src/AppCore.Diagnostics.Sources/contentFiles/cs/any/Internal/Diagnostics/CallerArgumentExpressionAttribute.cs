@@ -1,9 +1,9 @@
 ﻿// Licensed under the MIT License.
 // Copyright (c) 2022 the AppCore .NET project.
 
-using System.Diagnostics.CodeAnalysis;
+#if !NETCOREAPP3_0_OR_GREATER && ENABLE_NULLABLE
 
-#if !NETCOREAPP3_0_OR_GREATER || ENABLE_NULLABLE
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices
 {
