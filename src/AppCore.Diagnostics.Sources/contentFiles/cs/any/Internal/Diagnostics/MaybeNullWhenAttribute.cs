@@ -6,7 +6,7 @@
 namespace System.Diagnostics.CodeAnalysis
 {
     [AttributeUsage(AttributeTargets.Parameter)]
-    public class MaybeNullWhenAttribute : Attribute
+    internal sealed class MaybeNullWhenAttribute : Attribute
     {
         public bool ReturnValue { get; }
 
