@@ -14,7 +14,7 @@ steps:
     packagesToPush: $(Build.ArtifactStagingDirectory)/packages/**.nupkg;$(Build.ArtifactStagingDirectory)/packages/**.snupkg
     verbosityPush: 'Normal'
 - task: NuGetCommand@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/tags')))
   displayName: Push Packages (CI)
   inputs:
     command: push
