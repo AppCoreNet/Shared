@@ -1,7 +1,7 @@
 AppCore .NET Shared
 -------------------
 
-[![Build Status](https://dev.azure.com/AppCoreNet/Shared/_apis/build/status/AppCoreNet.Shared%20CI?branchName=dev)](https://dev.azure.com/AppCoreNet/Shared/_build/latest?definitionId=1&branchName=dev)
+[![Build Status](https://dev.azure.com/AppCoreNet/Shared/_apis/build/status/AppCoreNet.Shared%20CI?branchName=main)](https://dev.azure.com/AppCoreNet/Shared/_build/latest?definitionId=1&branchName=main)
 
 
 This repository includes projects, targeting .NET Framework and .NET Core, containing utility types commonly used
