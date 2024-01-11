@@ -6,6 +6,9 @@
     so they need to be added manually.
   -->
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Diagnostics\*.cs" Exclude="@(Compile)" LinkBase="AppCoreNet.Diagnostics" Visible="false" />
+    <Compile
+      Include="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Diagnostics\**\*.cs"
+      Condition="@(Compile->Equals('$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Diagnostics\**\*.cs')->Distinct()) == 'False'"
+      LinkBase="AppCoreNet.Diagnostics" Visible="false" />
   </ItemGroup>
 </Project>
