@@ -37,7 +37,7 @@ internal sealed class MemberNotNullWhenAttribute : Attribute
     public MemberNotNullWhenAttribute(bool returnValue, string member)
     {
         ReturnValue = returnValue;
-        Members = [member];
+        Members = new [] { member };
     }
 
     /// <summary>

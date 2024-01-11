@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppCoreNet.Attributes.Sources\AppCoreNet.Attributes.Sources.csproj" />
     <ProjectReference Include="..\AppCoreNet.Diagnostics.Sources\AppCoreNet.Diagnostics.Sources.csproj" />
   </ItemGroup>
 
