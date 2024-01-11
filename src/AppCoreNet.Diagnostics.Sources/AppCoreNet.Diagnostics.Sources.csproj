@@ -6,7 +6,7 @@
    -->
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <Import Project="..\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.props" />
-  
+
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
@@ -19,10 +19,10 @@
       Include="..\AppCoreNet.Attributes.Sources\**\*.cs"
       Exclude="..\AppCoreNet.Attributes.Sources\obj\**\*.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <None Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" Pack="true" />
-    <None Include="build\**\*" PackagePath="build" Pack="true" />
+    <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" Pack="true" />
+    <Content Include="build\**\*" PackagePath="build" Pack="true" />
   </ItemGroup>
 
   <ItemGroup>
