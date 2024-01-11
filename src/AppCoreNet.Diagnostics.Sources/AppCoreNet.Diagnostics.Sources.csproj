@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <Compile
-      LinkBase="AppCoreNet.Attributes.Sources"
+      LinkBase="AppCoreNet.Attributes"
       Include="..\AppCoreNet.Attributes.Sources\**\*.cs"
       Exclude="..\AppCoreNet.Attributes.Sources\obj\**\*.cs" />
   </ItemGroup>
@@ -23,6 +23,7 @@
   <ItemGroup>
     <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" BuildAction="Compile" Pack="true" />
     <Content Include="build\**\*" PackagePath="build" Pack="true" />
+    <Content Include="buildTransitive\**\*" PackagePath="buildTransitive" Pack="true" />
   </ItemGroup>
 
   <ItemGroup>

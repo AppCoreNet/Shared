@@ -6,6 +6,6 @@
     so they need to be added manually.
   -->
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Attributes\*.cs" LinkBase="AppCoreNet.Attributes.Sources" Visible="false" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Attributes\*.cs" LinkBase="AppCoreNet.Attributes" Visible="false" />
   </ItemGroup>
 </Project>

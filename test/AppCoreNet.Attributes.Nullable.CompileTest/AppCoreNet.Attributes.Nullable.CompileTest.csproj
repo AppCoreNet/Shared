@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Compile
-      LinkBase="AppCoreNet.Attributes.Sources"
+      LinkBase="AppCoreNet.Attributes"
       Include="..\..\src\AppCoreNet.Attributes.Sources\**\*.cs"
       Exclude="..\..\src\AppCoreNet.Attributes.Sources\obj\**\*.cs" />
   </ItemGroup>
