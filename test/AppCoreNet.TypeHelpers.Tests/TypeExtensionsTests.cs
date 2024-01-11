@@ -45,7 +45,7 @@ public class TypeExtensionsTests
     {
         typeof(TypeWithNestedType.NestedType).GetDisplayName()
                                              .Should()
-                                             .Be("AppCore.TypeWithNestedType.NestedType");
+                                             .Be("AppCoreNet.TypeWithNestedType.NestedType");
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<,>.NestedType).GetDisplayName()
                                          .Should()
-                                         .Be("AppCore.GenericType<T1,T2>.NestedType");
+                                         .Be("AppCoreNet.GenericType<T1,T2>.NestedType");
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<string, char>).GetDisplayName()
                                          .Should()
-                                         .Be("AppCore.GenericType<System.String,System.Char>");
+                                         .Be("AppCoreNet.GenericType<System.String,System.Char>");
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<,>).GetDisplayName()
                               .Should()
-                              .Be("AppCore.GenericType<T1,T2>");
+                              .Be("AppCoreNet.GenericType<T1,T2>");
     }
 
     [Fact]
