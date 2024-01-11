@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" Pack="true" />
+    <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" BuildAction="Compile" Pack="true" />
     <Content Include="build\**\*" PackagePath="build" Pack="true" />
   </ItemGroup>
 

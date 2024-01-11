@@ -24,6 +24,10 @@
     </PropertyGroup>
   </Target>
 
+  <PropertyGroup Condition="'$(AppCoreNetTrimmingAttributesEnabled)' == ''">
+    <AppCoreNetTrimmingAttributesEnabled>true</AppCoreNetTrimmingAttributesEnabled>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Update="@(Compile)">
       <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'AppCoreNet.Attributes.Sources'">false</Visible>

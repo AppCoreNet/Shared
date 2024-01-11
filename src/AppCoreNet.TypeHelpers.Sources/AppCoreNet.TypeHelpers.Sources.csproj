@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.TypeHelpers" Pack="true" />
+    <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.TypeHelpers" BuildAction="Compile" Pack="true" />
     <Content Include="build\**\*" PackagePath="build" Pack="true" />
   </ItemGroup>
 
