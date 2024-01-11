@@ -1,3 +1,20 @@
 <Project>
   <Import Project="$(MSBuildThisFileDirectory)..\build\AppCoreNet.Attributes.Sources.props" />
+
+
+  <!--
+    Source assets are not added to the compile items for transitive dependencies,
+    so they need to be added manually.
+  -->
+  <ItemGroup>
+    <Compile
+      Remove="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Attributes\**\*.cs"
+      LinkBase="AppCoreNet.Attributes"
+      Visible="false" />
+    <Compile
+      Include="$(MSBuildThisFileDirectory)..\contentFiles\cs\any\AppCoreNet.Attributes\**\*.cs"
+      Exclude="@(Compile)"
+      LinkBase="AppCoreNet.Attributes"
+      Visible="false" />
+  </ItemGroup>
 </Project>
