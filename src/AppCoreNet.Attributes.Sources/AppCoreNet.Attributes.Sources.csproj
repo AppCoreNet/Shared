@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Attributes" BuildAction="Compile" Pack="true" />
-    <Content Include="build\**\*" PackagePath="build" Pack="true" />
+    <Content Include="build\**\*" PackagePath="build;buildTransitive" Pack="true" />
   </ItemGroup>
 
 </Project>
