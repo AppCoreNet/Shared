@@ -40,9 +40,12 @@ If you are using the `Polyfill` or `Nullable` package these attributes are autom
 inclusion of these attributes with the following MSBuild properties:
 
 - `AppCoreNetAttributesEnabled`
-  Disables all attributes.
+  Enables/disables all attributes.
 - `AppCoreNetNullableAttributesEnabled`
-  Disables the nullable attributes.
+  Enables/disables the nullable attributes.
+- `AppCoreNetTrimmingAttributesEnabled`
+  Enables/disables the nullable attributes.
+
 
 For example:
 
