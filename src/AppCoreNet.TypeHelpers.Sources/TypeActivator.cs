@@ -19,7 +19,9 @@ namespace AppCoreNet;
 #endif
 internal static class TypeActivator
 {
-    public static TDelegate GetFactoryDelegate<TDelegate>(Type type)
+    public static TDelegate GetFactoryDelegate<TDelegate>(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        Type type)
         where TDelegate : Delegate
     {
         Type[] argTypes = typeof(TDelegate).GetTypeInfo().GenericTypeArguments;
@@ -29,7 +31,10 @@ internal static class TypeActivator
         return GetFactoryDelegate<TDelegate>(type, argTypes);
     }
 
-    public static TDelegate GetFactoryDelegate<TDelegate>(Type type, params Type[] argTypes)
+    public static TDelegate GetFactoryDelegate<TDelegate>(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        Type type,
+        params Type[] argTypes)
         where TDelegate : Delegate
     {
         Ensure.Arg.NotNull(type);
@@ -58,10 +63,10 @@ internal static class TypeActivator
 
         NewExpression body = Expression.New(
             constructor,
-            parameters.Select((t, i) => Expression.Convert(parameters[i], argTypes[i])));
+            parameters.Select((_, i) => Expression.Convert(parameters[i], argTypes[i])));
 
-        return (TDelegate) Expression.Lambda(body, parameters)
-                                     .Compile();
+        return (TDelegate)Expression.Lambda(body, parameters)
+                                    .Compile();
     }
 
 #if !APPCORENET_SHARED_SOURCES_TESTS
@@ -80,7 +85,7 @@ internal static class TypeActivator
             public static class WithoutArgs
             {
                 public static readonly Func<T> Create =
-                    (Func<T>) GetFactoryDelegate<Func<T>>(typeof(T));
+                    GetFactoryDelegate<Func<T>>(typeof(T));
             }
 
 #if !APPCORENET_SHARED_SOURCES_TESTS
@@ -142,20 +147,25 @@ internal static class TypeActivator
                 public Type Arg4;
             }
 
+            private readonly Dictionary<ArgTypes, Delegate> _argsFactories = new ();
+            [DynamicallyAccessedMembers(
+                DynamicallyAccessedMemberTypes.PublicConstructors
+                | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
             private readonly Type _type;
             private Func<object>? _noArgsFactory;
 
-            private readonly Dictionary<ArgTypes, Delegate> _argsFactories =
-                new Dictionary<ArgTypes, Delegate>();
-
-            public NonGenericTypeFactory(Type type)
+            public NonGenericTypeFactory(
+                [DynamicallyAccessedMembers(
+                    DynamicallyAccessedMemberTypes.PublicConstructors
+                    | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+                Type type)
             {
                 _type = type;
             }
 
             public Func<object> WithoutArgs()
             {
-                return _noArgsFactory ?? (_noArgsFactory = GetFactoryDelegate<Func<object>>(_type));
+                return _noArgsFactory ??= GetFactoryDelegate<Func<object>>(_type);
             }
 
             private Delegate GetOrAddFactory(ArgTypes key, Func<ArgTypes, Delegate> func)
@@ -174,46 +184,46 @@ internal static class TypeActivator
 
             public Func<TArg1, object> WithArgs<TArg1>()
             {
-                return (Func<TArg1, object>) GetOrAddFactory(
+                return (Func<TArg1, object>)GetOrAddFactory(
                     new ArgTypes
                     {
-                        Arg1 = typeof(TArg1)
+                        Arg1 = typeof(TArg1),
                     },
                     t => GetFactoryDelegate<Func<TArg1, object>>(_type, t.Arg1));
             }
 
             public Func<TArg1, TArg2, object> WithArgs<TArg1, TArg2>()
             {
-                return (Func<TArg1, TArg2, object>) GetOrAddFactory(
+                return (Func<TArg1, TArg2, object>)GetOrAddFactory(
                     new ArgTypes
                     {
                         Arg1 = typeof(TArg1),
-                        Arg2 = typeof(TArg2)
+                        Arg2 = typeof(TArg2),
                     },
                     t => GetFactoryDelegate<Func<TArg1, TArg2, object>>(_type, t.Arg1, t.Arg2));
             }
 
             public Func<TArg1, TArg2, TArg3, object> WithArgs<TArg1, TArg2, TArg3>()
             {
-                return (Func<TArg1, TArg2, TArg3, object>) GetOrAddFactory(
+                return (Func<TArg1, TArg2, TArg3, object>)GetOrAddFactory(
                     new ArgTypes
                     {
                         Arg1 = typeof(TArg1),
                         Arg2 = typeof(TArg2),
-                        Arg3 = typeof(TArg3)
+                        Arg3 = typeof(TArg3),
                     },
                     t => GetFactoryDelegate<Func<TArg1, TArg2, TArg3, object>>(_type, t.Arg1, t.Arg2, t.Arg3));
             }
 
             public Func<TArg1, TArg2, TArg3, TArg4, object> WithArgs<TArg1, TArg2, TArg3, TArg4>()
             {
-                return (Func<TArg1, TArg2, TArg3, TArg4, object>) GetOrAddFactory(
+                return (Func<TArg1, TArg2, TArg3, TArg4, object>)GetOrAddFactory(
                     new ArgTypes
                     {
                         Arg1 = typeof(TArg1),
                         Arg2 = typeof(TArg2),
                         Arg3 = typeof(TArg3),
-                        Arg4 = typeof(TArg4)
+                        Arg4 = typeof(TArg4),
                     },
                     t => GetFactoryDelegate<Func<TArg1, TArg2, TArg3, TArg4, object>>(
                         _type,
@@ -224,17 +234,20 @@ internal static class TypeActivator
             }
         }
 
-        private static readonly Dictionary<Type, NonGenericTypeFactory> _factories =
-            new Dictionary<Type, NonGenericTypeFactory>();
+        private static readonly Dictionary<Type, NonGenericTypeFactory> Factories = new ();
 
-        public static NonGenericTypeFactory ForReflectedType(Type type)
+        public static NonGenericTypeFactory ForReflectedType(
+            [DynamicallyAccessedMembers(
+                DynamicallyAccessedMemberTypes.PublicConstructors
+                | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+            Type type)
         {
-            lock (_factories)
+            lock (Factories)
             {
-                if (!_factories.TryGetValue(type, out NonGenericTypeFactory? factory))
+                if (!Factories.TryGetValue(type, out NonGenericTypeFactory? factory))
                 {
                     factory = new NonGenericTypeFactory(type);
-                    _factories.Add(type, factory);
+                    Factories.Add(type, factory);
                 }
 
                 return factory;
@@ -247,7 +260,11 @@ internal static class TypeActivator
         return TypeFactory.ForType<T>.WithoutArgs.Create();
     }
 
-    public static object CreateInstance(this Type type)
+    public static object CreateInstance(
+        [DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.PublicConstructors
+            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        this Type type)
     {
         Ensure.Arg.NotNull(type, nameof(type));
 
@@ -260,7 +277,12 @@ internal static class TypeActivator
         return TypeFactory.ForType<T>.WithArgs<TArg1>.Create(arg1);
     }
 
-    public static object CreateInstance<TArg1>(this Type type, TArg1 arg1)
+    public static object CreateInstance<TArg1>(
+        [DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.PublicConstructors
+            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        this Type type,
+        TArg1 arg1)
     {
         Ensure.Arg.NotNull(type, nameof(type));
 
@@ -273,7 +295,13 @@ internal static class TypeActivator
         return TypeFactory.ForType<T>.WithArgs<TArg1, TArg2>.Create(arg1, arg2);
     }
 
-    public static object CreateInstance<TArg1, TArg2>(this Type type, TArg1 arg1, TArg2 arg2)
+    public static object CreateInstance<TArg1, TArg2>(
+        [DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.PublicConstructors
+            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        this Type type,
+        TArg1 arg1,
+        TArg2 arg2)
     {
         Ensure.Arg.NotNull(type, nameof(type));
 
@@ -286,7 +314,14 @@ internal static class TypeActivator
         return TypeFactory.ForType<T>.WithArgs<TArg1, TArg2, TArg3>.Create(arg1, arg2, arg3);
     }
 
-    public static object CreateInstance<TArg1, TArg2, TArg3>(this Type type, TArg1 arg1, TArg2 arg2, TArg3 arg3)
+    public static object CreateInstance<TArg1, TArg2, TArg3>(
+        [DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.PublicConstructors
+            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        this Type type,
+        TArg1 arg1,
+        TArg2 arg2,
+        TArg3 arg3)
     {
         Ensure.Arg.NotNull(type, nameof(type));
 
@@ -300,6 +335,9 @@ internal static class TypeActivator
     }
 
     public static object CreateInstance<TArg1, TArg2, TArg3, TArg4>(
+        [DynamicallyAccessedMembers(
+            DynamicallyAccessedMemberTypes.PublicConstructors
+            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
         this Type type,
         TArg1 arg1,
         TArg2 arg2,

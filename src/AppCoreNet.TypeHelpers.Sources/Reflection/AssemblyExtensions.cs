@@ -27,6 +27,7 @@ internal static class AssemblyExtensions
     /// <param name="assembly"></param>
     /// <param name="type"></param>
     /// <returns></returns>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static IEnumerable<Type> GetTypesAssignableFrom(this Assembly assembly, Type type)
     {
         Ensure.Arg.NotNull(assembly);
@@ -47,6 +48,7 @@ internal static class AssemblyExtensions
     /// <param name="assembly"></param>
     /// <param name="type"></param>
     /// <returns></returns>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static IEnumerable<Type> GetExportedTypesAssignableFrom(this Assembly assembly, Type type)
     {
         Ensure.Arg.NotNull(assembly);

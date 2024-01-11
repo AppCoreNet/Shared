@@ -84,6 +84,7 @@ internal static class TypeExtensions
     /// <param name="type"></param>
     /// <param name="includeGenericTypeDefinitions"></param>
     /// <returns>An <see cref="IEnumerable{T}"/> of types assignable from the specified type.</returns>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static IEnumerable<Type> GetTypesAssignableFrom(this Type type, bool includeGenericTypeDefinitions = false)
     {
         Ensure.Arg.NotNull(type);
@@ -93,7 +94,11 @@ internal static class TypeExtensions
         return assignableTypes;
     }
 
-    private static void GetBagOfTypesAssignableFrom(Type type, List<Type> assignableType, bool includeGenericTypeDefinitions = false)
+    [RequiresUnreferencedCode("Types might be removed")]
+    private static void GetBagOfTypesAssignableFrom(
+        Type type,
+        List<Type> assignableType,
+        bool includeGenericTypeDefinitions = false)
     {
         if (assignableType.Contains(type))
             return;
@@ -126,11 +131,15 @@ internal static class TypeExtensions
     /// <param name="openGeneric">The open generic type which must be implemented.</param>
     /// <returns>The closed generic type.</returns>
     /// <exception cref="InvalidCastException">The specified type does not implement the generic type.</exception>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static Type GetClosedTypeOf(this Type type, Type openGeneric)
     {
         Type? result = type.FindClosedTypeOf(openGeneric);
         if (result == null)
-            throw new InvalidCastException($"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
+        {
+            throw new InvalidCastException(
+                $"{type.GetDisplayName()} does not implement {openGeneric.GetDisplayName()}");
+        }
 
         return result;
     }
@@ -141,6 +150,7 @@ internal static class TypeExtensions
     /// <param name="type">The type to inspect.</param>
     /// <param name="openGeneric">The open generic type which should be implemented.</param>
     /// <returns>The closed generic type or <c>null</c> if the type does not implement the generic type..</returns>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static Type? FindClosedTypeOf(this Type type, Type openGeneric)
     {
         Ensure.Arg.NotNull(type);
@@ -150,8 +160,9 @@ internal static class TypeExtensions
             return null;
 
         return type.GetTypesAssignableFrom()
-                   .FirstOrDefault(t => t.IsGenericType
-                                        && t.GetGenericTypeDefinition() == openGeneric);
+                   .FirstOrDefault(
+                       t => t.IsGenericType
+                            && t.GetGenericTypeDefinition() == openGeneric);
     }
 
     /// <summary>
@@ -160,6 +171,7 @@ internal static class TypeExtensions
     /// <param name="type">The type to inspect.</param>
     /// <param name="openGeneric">The open generic type which should be implemented.</param>
     /// <returns><c>true</c> if the open generic type is implemented; <c>false</c> otherwise.</returns>
+    [RequiresUnreferencedCode("Types might be removed")]
     public static bool IsClosedTypeOf(this Type type, Type openGeneric)
     {
         return type.FindClosedTypeOf(openGeneric) != null;
