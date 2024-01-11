@@ -1,0 +1,16 @@
+<Project>
+  <Target Name="PrepareAppCoreNetDiagnostics" DependsOnTargets="ResolvePackageAssets">
+    <PropertyGroup Condition="@(PackageDependencies->WithMetadataValue('Identity', 'JetBrains.Annotations')->Count()) != 0 and '$(AppCoreNetDiagnosticsJetBrainsAnnotationsEnabled)' == ''">
+      <AppCoreNetDiagnosticsJetBrainsAnnotationsEnabled>true</AppCoreNetDiagnosticsJetBrainsAnnotationsEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(AppCoreNetDiagnosticsJetBrainsAnnotationsEnabled)' == 'true'">
+      <DefineConstants>$(DefineConstants);APPCORENET_JETBRAINS_ANNOTATIONS_ENABLED</DefineConstants>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <Compile Update="@(Compile)">
+      <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'AppCoreNet.Diagnostics.Sources'">false</Visible>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,11 +1,10 @@
-AppCore .NET Shared
--------------------
+AppCore.NET Shared
+------------------
 
-[![Build Status](https://dev.azure.com/AppCoreNet/Shared/_apis/build/status/AppCoreNet.Shared%20CI?branchName=main)](https://dev.azure.com/AppCoreNet/Shared/_build/latest?definitionId=1&branchName=main)
+![Nuget](https://img.shields.io/nuget/v/AppCoreNet.Attributes.Sources?label=NuGet) ![MyGet](https://img.shields.io/myget/appcorenet/vpre/AppCoreNet.Attributes.Sources?label=MyGet)
 
-
-This repository includes projects, targeting .NET Framework and .NET Core, containing utility types commonly used
-across other AppCore .NET projects.
+This repository includes projects, targeting .NET Framework and .NET Standard, containing utility types commonly
+used across other AppCore .NET projects.
 
 All artifacts are licensed under the [MIT license](LICENSE). You are free to use them in open-source or commercial
 projects as long as you keep the copyright notice intact when redistributing or otherwise reusing our artifacts.
@@ -17,10 +16,11 @@ Latest development packages can be found on [MyGet](https://www.myget.org/galler
 The following packages are published as source NuGet packages, your application or library will not
 have a runtime dependency on them.
 
-Package                           | Description
-----------------------------------|---------------------------------------------------------------
-`AppCore.Diagnostics.Sources` | Provides static classes to ensure program contracts.
-`AppCore.TypeHelpers.Sources` | Includes extensions for `Type` and `Assembly` and a fast activator for types.
+| Package                          | Description                                                                   |
+|----------------------------------|-------------------------------------------------------------------------------|
+| `AppCoreNet.Attributes.Sources`  | Provides poly fills for .NET attributes.                                      |
+| `AppCoreNet.Diagnostics.Sources` | Provides static classes to ensure program contracts.                          |
+| `AppCoreNet.TypeHelpers.Sources` | Includes extensions for `Type` and `Assembly` and a fast activator for types. |
 
 ## Contributing
 
@@ -31,12 +31,34 @@ Please refer to the [Contribution guide](CONTRIBUTING.md).
 
 # Usage
 
-Source packages do support nullable reference types for .NET Core >= 3.0. If you want to enable them for the old .NET framework
-you have to define the `ENABLE_NULLABLE` compilation symbol.
+## AppCoreNet.Attributes.Sources
 
-## Diagnostics
+This packages includes sources for attributes which are defined in newer .NET versions (>= .NET Core 3.0) such as
+attributes required for nullable reference types, attributes required for the `required` keyword and others.
 
-This package includes static classes to ensure program contracts such as pre-conditions, post-conditions and
+If you are using the `Polyfill` or `Nullable` package these attributes are automatically disabled. You can control the
+inclusion of these attributes with the following MSBuild properties:
+
+- `AppCoreNetAttributesEnabled`
+  Disables all attributes.
+- `AppCoreNetNullableAttributesEnabled`
+  Disables the nullable attributes.
+
+For example:
+
+```msbuild
+<Project>
+  <PropertyGroup>
+    <AppCoreNetAttributesEnabled>false</AppCoreNetAttributesEnabled>
+  </PropertyGroup>
+</Project>
+```
+
+Will disable all attributes.
+
+## AppCoreNet.Diagnostics.Sources
+
+This package includes sources of static classes to ensure program contracts such as pre-conditions, post-conditions and
 invariants.
 
 ### Pre-conditions
@@ -46,7 +68,7 @@ Ensuring that some argument is not null:
 public void SomeMethod(object obj)
 {
     // this will throw 'ArgumentNullException' if 'obj' is null
-    Ensure.Arg.NotNull(obj, nameof(obj));
+    Ensure.Arg.NotNull(obj);
 }
 ```
 
@@ -55,7 +77,7 @@ Ensuring that some string argument is not null or empty/only whitespace:
 public void SomeMethod(string str)
 {
     // this will throw 'ArgumentNullException' or 'ArgumentException' if 'str' is null or empty
-    Ensure.Arg.NotEmpty(str, nameof(str));
+    Ensure.Arg.NotEmpty(str);
 }
 ```
 
@@ -64,16 +86,16 @@ Ensuring that some value argument is in range:
 public void SomeMethod(int val)
 {
     // this will throw or 'ArgumentOutOfRangeException' if 'val' is < 0 || > 10
-    Ensure.Arg.InRange(val, 0, 10, nameof(val));
+    Ensure.Arg.InRange(val, 0, 10);
 }
 ```
 
 Other pre-condition checks are available: `Ensure.Arg.MinLength()`, `Ensure.Arg.MaxLength()`
 
-Note that the package also includes annotations for ReSharper. If you want to bring your own you can disable
-them by defining the compilation symbol `APPCORE_DISABLE_RESHARPER_ANNOTATIONS`.
+Note that the package also supports annotations for ReSharper. Simply add the package `ReSharper.Annotations` to your
+project.
 
-## TypeHelpers
+## AppCoreNet.TypeHelpers.Sources
 
 Includes various extensions for the `Type` and `Assembly` classes to make your live easier when working
 with open generic types. Also provides a fast activator (factory) for dynamically instantiating types.
@@ -97,6 +119,6 @@ TypeActivator.CreateInstance(typeof(MyType))
 Checking if some type implements generic type:
 
 ```csharp
-clas StringList : List<string> { }
+class StringList : List<string> { }
 typeof(StringList).IsClosedTypeOf(typeof(List<>))
 ```

@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PrepareAppCoreNetDiagnostics</PrepareForBuildDependsOn>
+  </PropertyGroup>
+</Project>

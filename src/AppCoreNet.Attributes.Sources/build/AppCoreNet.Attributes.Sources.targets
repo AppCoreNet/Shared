@@ -1,0 +1,32 @@
+<Project>
+  <Target Name="PrepareAppCoreNetAttributes" DependsOnTargets="ResolvePackageAssets">
+
+    <!-- Disable all attributes if 'Polyfill' package is referenced -->
+    <PropertyGroup Condition="@(PackageDependencies->WithMetadataValue('Identity', 'Polyfill')->Count()) != 0">
+      <AppCoreNetAttributesEnabled>false</AppCoreNetAttributesEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(AppCoreNetAttributesEnabled)' == ''">
+      <AppCoreNetAttributesEnabled>true</AppCoreNetAttributesEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(AppCoreNetAttributesEnabled)' == 'true'">
+      <DefineConstants>$(DefineConstants);APPCORENET_ATTRIBUTES_ENABLED</DefineConstants>
+    </PropertyGroup>
+
+    <!-- Disable nullable attributes if 'Nullable' package is referenced -->
+    <PropertyGroup Condition="@(PackageDependencies->WithMetadataValue('Identity', 'Nullable')->Count()) != 0">
+      <AppCoreNetNullableAttributesEnabled>false</AppCoreNetNullableAttributesEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(AppCoreNetNullableAttributesEnabled)' == ''">
+      <AppCoreNetNullableAttributesEnabled>true</AppCoreNetNullableAttributesEnabled>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(AppCoreNetNullableAttributesEnabled)' == 'true'">
+      <DefineConstants>$(DefineConstants);APPCORENET_NULLABLE_ATTRIBUTES_ENABLED</DefineConstants>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <Compile Update="@(Compile)">
+      <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'AppCoreNet.Attributes.Sources'">false</Visible>
+    </Compile>
+  </ItemGroup>
+</Project>

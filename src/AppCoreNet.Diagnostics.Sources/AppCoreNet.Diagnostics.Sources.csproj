@@ -1,0 +1,39 @@
+<Project>
+
+  <!--
+   The SDK is imported manually to also inject the build files from AppCoreNet.Attributes.Sources
+   like it's done when referencing via NuGet.
+   -->
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="..\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.props" />
+  
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
+    <PackageDescription>Provides static classes to ensure program contracts.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile
+      LinkBase="AppCoreNet.Attributes.Sources"
+      Include="..\AppCoreNet.Attributes.Sources\**\*.cs"
+      Exclude="..\AppCoreNet.Attributes.Sources\obj\**\*.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Diagnostics" Pack="true" />
+    <None Include="build\**\*" PackagePath="build" Pack="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppCoreNet.Attributes.Sources\AppCoreNet.Attributes.Sources.csproj" />
+  </ItemGroup>
+
+  <!--
+   The SDK is imported manually to also inject the build files from AppCoreNet.Attributes.Sources
+   like it's done when referencing via NuGet.
+   -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="..\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.targets" />
+
+</Project>
