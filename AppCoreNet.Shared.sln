@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Attributes.Nulla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Diagnostics.JetBrains.Annotations.CompileTest", "test\AppCoreNet.Diagnostics.JetBrains.Annotations.CompileTest\AppCoreNet.Diagnostics.JetBrains.Annotations.CompileTest.csproj", "{53117AEF-4E23-48E3-BF3B-4E5398E384F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Attributes.CompileTest", "test\AppCoreNet.Attributes.CompileTest\AppCoreNet.Attributes.CompileTest.csproj", "{018383FB-2DAF-4966-BD14-5CEB84A04D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{53117AEF-4E23-48E3-BF3B-4E5398E384F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53117AEF-4E23-48E3-BF3B-4E5398E384F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53117AEF-4E23-48E3-BF3B-4E5398E384F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +103,6 @@ Global
 		{EE034302-6D40-4B54-B115-0184558855F2} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 		{46E81671-864B-4A8F-B94F-A2FCB1AC0DE6} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 		{53117AEF-4E23-48E3-BF3B-4E5398E384F9} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
+		{018383FB-2DAF-4966-BD14-5CEB84A04D58} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 	EndGlobalSection
 EndGlobal
