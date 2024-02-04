@@ -44,7 +44,7 @@ inclusion of these attributes with the following MSBuild properties:
 - `AppCoreNetNullableAttributesEnabled`
   Enables/disables the nullable attributes.
 - `AppCoreNetTrimmingAttributesEnabled`
-  Enables/disables the nullable attributes.
+  Enables/disables the trimming attributes.
 
 
 For example:
