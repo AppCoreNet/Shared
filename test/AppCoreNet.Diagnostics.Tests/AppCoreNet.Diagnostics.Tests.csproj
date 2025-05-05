@@ -10,7 +10,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net462</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net472</TargetFrameworks>
     <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
     <DefineConstants>$(DefineConstants);APPCORENET_SHARED_SOURCES_TESTS</DefineConstants>
   </PropertyGroup>
