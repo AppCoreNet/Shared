@@ -10,7 +10,7 @@
   <Import Project="..\..\src\AppCoreNet.TypeHelpers.Sources\build\AppCoreNet.TypeHelpers.Sources.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net462</TargetFrameworks>
     <RootNamespace>AppCoreNet</RootNamespace>
     <DefineConstants>$(DefineConstants);APPCORENET_SHARED_SOURCES_TESTS</DefineConstants>

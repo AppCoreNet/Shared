@@ -20,7 +20,7 @@ namespace AppCoreNet;
 internal static class TypeActivator
 {
     public static TDelegate GetFactoryDelegate<TDelegate>(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         Type type)
         where TDelegate : Delegate
     {
@@ -32,7 +32,7 @@ internal static class TypeActivator
     }
 
     public static TDelegate GetFactoryDelegate<TDelegate>(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         Type type,
         params Type[] argTypes)
         where TDelegate : Delegate
@@ -148,16 +148,11 @@ internal static class TypeActivator
             }
 
             private readonly Dictionary<ArgTypes, Delegate> _argsFactories = new ();
-            [DynamicallyAccessedMembers(
-                DynamicallyAccessedMemberTypes.PublicConstructors
-                | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
             private readonly Type _type;
             private Func<object>? _noArgsFactory;
 
             public NonGenericTypeFactory(
-                [DynamicallyAccessedMembers(
-                    DynamicallyAccessedMemberTypes.PublicConstructors
-                    | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
                 Type type)
             {
                 _type = type;
@@ -237,9 +232,7 @@ internal static class TypeActivator
         private static readonly Dictionary<Type, NonGenericTypeFactory> Factories = new ();
 
         public static NonGenericTypeFactory ForReflectedType(
-            [DynamicallyAccessedMembers(
-                DynamicallyAccessedMemberTypes.PublicConstructors
-                | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
             Type type)
         {
             lock (Factories)
@@ -255,15 +248,13 @@ internal static class TypeActivator
         }
     }
 
-    public static T CreateInstance<T>()
+    public static T CreateInstance<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         return TypeFactory.ForType<T>.WithoutArgs.Create();
     }
 
     public static object CreateInstance(
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicConstructors
-            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         this Type type)
     {
         Ensure.Arg.NotNull(type, nameof(type));
@@ -272,15 +263,14 @@ internal static class TypeActivator
                           .WithoutArgs();
     }
 
-    public static T CreateInstance<T, TArg1>(TArg1 arg1)
+    public static T CreateInstance<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T,
+                                   TArg1>(TArg1 arg1)
     {
         return TypeFactory.ForType<T>.WithArgs<TArg1>.Create(arg1);
     }
 
     public static object CreateInstance<TArg1>(
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicConstructors
-            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         this Type type,
         TArg1 arg1)
     {
@@ -290,15 +280,14 @@ internal static class TypeActivator
                           .WithArgs<TArg1>()(arg1);
     }
 
-    public static T CreateInstance<T, TArg1, TArg2>(TArg1 arg1, TArg2 arg2)
+    public static T CreateInstance<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T,
+                                   TArg1, TArg2>(TArg1 arg1, TArg2 arg2)
     {
         return TypeFactory.ForType<T>.WithArgs<TArg1, TArg2>.Create(arg1, arg2);
     }
 
     public static object CreateInstance<TArg1, TArg2>(
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicConstructors
-            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         this Type type,
         TArg1 arg1,
         TArg2 arg2)
@@ -309,15 +298,14 @@ internal static class TypeActivator
                           .WithArgs<TArg1, TArg2>()(arg1, arg2);
     }
 
-    public static T CreateInstance<T, TArg1, TArg2, TArg3>(TArg1 arg1, TArg2 arg2, TArg3 arg3)
+    public static T CreateInstance<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T,
+                                   TArg1, TArg2, TArg3>(TArg1 arg1, TArg2 arg2, TArg3 arg3)
     {
         return TypeFactory.ForType<T>.WithArgs<TArg1, TArg2, TArg3>.Create(arg1, arg2, arg3);
     }
 
     public static object CreateInstance<TArg1, TArg2, TArg3>(
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicConstructors
-            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         this Type type,
         TArg1 arg1,
         TArg2 arg2,
@@ -329,15 +317,14 @@ internal static class TypeActivator
                           .WithArgs<TArg1, TArg2, TArg3>()(arg1, arg2, arg3);
     }
 
-    public static T CreateInstance<T, TArg1, TArg2, TArg3, TArg4>(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4)
+    public static T CreateInstance<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T,
+                                   TArg1, TArg2, TArg3, TArg4>(TArg1 arg1, TArg2 arg2, TArg3 arg3, TArg4 arg4)
     {
         return TypeFactory.ForType<T>.WithArgs<TArg1, TArg2, TArg3, TArg4>.Create(arg1, arg2, arg3, arg4);
     }
 
     public static object CreateInstance<TArg1, TArg2, TArg3, TArg4>(
-        [DynamicallyAccessedMembers(
-            DynamicallyAccessedMemberTypes.PublicConstructors
-            | DynamicallyAccessedMemberTypes.NonPublicConstructors)]
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
         this Type type,
         TArg1 arg1,
         TArg2 arg2,

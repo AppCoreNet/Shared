@@ -7,28 +7,6 @@ using Xunit;
 
 namespace AppCoreNet;
 
-public class GenericType<T1, T2>
-{
-    public class NestedType
-    {
-    }
-}
-
-public interface IGenericInterface<T1, T2>
-{
-}
-
-public class ClosedGenericType : GenericType<string, char>, IGenericInterface<string, char>
-{
-}
-
-public class TypeWithNestedType
-{
-    public class NestedType
-    {
-    }
-}
-
 [ExcludeFromCodeCoverage]
 public class TypeExtensionsTests
 {
