@@ -8,7 +8,7 @@
   <Import Project="..\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
     <PackageDescription>Provides static classes to ensure program contracts.</PackageDescription>
   </PropertyGroup>

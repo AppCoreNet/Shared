@@ -9,7 +9,7 @@
   <Import Project="..\AppCoreNet.Diagnostics.Sources\build\AppCoreNet.Diagnostics.Sources.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <RootNamespace>AppCoreNet</RootNamespace>
     <PackageDescription>Provides extensions for Type, TypeInfo and Assembly.</PackageDescription>
   </PropertyGroup>

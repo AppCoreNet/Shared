@@ -9,11 +9,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net462</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net472</TargetFrameworks>
     <RootNamespace>AppCoreNet.Attributes</RootNamespace>
     <DefineConstants>$(DefineConstants);APPCORENET_SHARED_SOURCES_TESTS</DefineConstants>
     <IsTestProject>false</IsTestProject>
-    <WarningsAsErrors>true</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

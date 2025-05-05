@@ -75,9 +75,9 @@ are calculated from the branching history of the repository, using [GitVersion](
 
 ### Developer Environment
 
-- Visual Studio 2019
-- .NET Core SDK 2.1 and 3.1
-- PowerShell 5+
+- Visual Studio 2022
+- .NET SDK 9.0.203
+- PowerShell 7+
 
 ### Build / Test
 
