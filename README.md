@@ -88,12 +88,12 @@ Ensuring that some value argument is in range:
 ```csharp
 public void SomeMethod(int val)
 {
-    // this will throw or 'ArgumentOutOfRangeException' if 'val' is < 0 || > 10
+    // this will throw 'ArgumentOutOfRangeException' if 'val' is < 0 || > 10
     Ensure.Arg.InRange(val, 0, 10);
 }
 ```
 
-Other pre-condition checks are available: `Ensure.Arg.MinLength()`, `Ensure.Arg.MaxLength()`
+Other pre-condition checks are available: `Ensure.Arg.NotNullButEmpty()`, `Ensure.Arg.MinLength()`, `Ensure.Arg.MaxLength()`, `Ensure.Arg.OfType()`.
 
 Note that the package also supports annotations for ReSharper. Simply add the package `ReSharper.Annotations` to your
 project.
