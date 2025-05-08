@@ -40,7 +40,8 @@ internal static class TypeActivator
         Ensure.Arg.NotNull(type);
 
         ConstructorInfo? constructor = type.GetTypeInfo()
-                                           .DeclaredConstructors.FirstOrDefault(
+                                           .GetConstructors()
+                                           .FirstOrDefault(
                                                ci => ci.IsPublic
                                                      && ci.GetParameters()
                                                           .Select(p => p.ParameterType)
@@ -77,7 +78,7 @@ internal static class TypeActivator
 #if !APPCORENET_SHARED_SOURCES_TESTS
         [ExcludeFromCodeCoverage]
 #endif
-        public static class ForType<T>
+        public static class ForType<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>
         {
 #if !APPCORENET_SHARED_SOURCES_TESTS
             [ExcludeFromCodeCoverage]
@@ -148,6 +149,7 @@ internal static class TypeActivator
             }
 
             private readonly Dictionary<ArgTypes, Delegate> _argsFactories = new ();
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
             private readonly Type _type;
             private Func<object>? _noArgsFactory;
 

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions;
 using Xunit;
@@ -12,6 +13,7 @@ namespace AppCoreNet.Reflection;
 public class AssemblyExtensionsTests
 {
     [Fact]
+    [RequiresUnreferencedCode("Types might be removed")]
     public void GetTypesAssignableFrom()
     {
         Assembly assembly = typeof(AssemblyExtensionsTests).Assembly;
@@ -22,11 +24,13 @@ public class AssemblyExtensionsTests
                  new[]
                  {
                      typeof(IGenericInterface<,>),
+                     typeof(GenericType<,>),
                      typeof(ClosedGenericType),
                  });
     }
 
     [Fact]
+    [RequiresUnreferencedCode("Types might be removed")]
     public void GetTypesAssignableFrom2()
     {
         Assembly assembly = typeof(AssemblyExtensionsTests).Assembly;
@@ -36,6 +40,7 @@ public class AssemblyExtensionsTests
              .BeEquivalentTo(
                  new[]
                  {
+                     typeof(GenericType<,>),
                      typeof(ClosedGenericType),
                  });
     }
