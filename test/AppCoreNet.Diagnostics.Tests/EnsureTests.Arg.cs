@@ -163,7 +163,6 @@ public partial class EnsureTests
         [Theory]
         [InlineData(typeof(IEnumerable))]
         [InlineData(typeof(IEnumerable<string>))]
-        [InlineData(typeof(IEnumerable<>))]
         [InlineData(typeof(ExpectedArgBaseType))]
         [InlineData(typeof(ExpectedArgType))]
         public void OfTypeDoesNotThrowForRelatedTypes(Type expectedType)
@@ -177,6 +176,40 @@ public partial class EnsureTests
         {
             var exception = Assert.Throws<ArgumentException>(
                 () => Ensure.Arg.OfType(typeof(string), typeof(ExpectedArgType), "param"));
+
+            exception.ParamName.Should()
+                     .Be("param");
+        }
+
+        [Fact]
+        public void OfTypeDoesNotThrowForNullType()
+        {
+            Ensure.Arg.OfType(null, typeof(string));
+        }
+
+        [Theory]
+        [InlineData(typeof(IEnumerable))]
+        [InlineData(typeof(IEnumerable<string>))]
+        [InlineData(typeof(IEnumerable<>))]
+        [InlineData(typeof(ExpectedArgBaseType))]
+        [InlineData(typeof(ExpectedArgType))]
+        public void OfGenericTypeDoesNotThrowForRelatedTypes(Type expectedType)
+        {
+            Type type = typeof(ExpectedArgType);
+            Ensure.Arg.OfGenericType(type, expectedType, "param");
+        }
+
+        [Fact]
+        public void OfGenericTypeDoesNotThrowForNullType()
+        {
+            Ensure.Arg.OfGenericType(null, typeof(string));
+        }
+
+        [Fact]
+        public void OfGenericTypeThrowsForUnrelatedType()
+        {
+            var exception = Assert.Throws<ArgumentException>(
+                () => Ensure.Arg.OfGenericType(typeof(string), typeof(ExpectedArgType), "param"));
 
             exception.ParamName.Should()
                      .Be("param");

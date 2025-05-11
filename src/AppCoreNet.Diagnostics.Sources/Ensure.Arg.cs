@@ -220,8 +220,7 @@ internal static partial class Ensure
         }
 
         /// <summary>
-        /// Ensures that the type argument is of the expected type. Supports testing for
-        /// open generic types.
+        /// Ensures that the type argument is of the expected type.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> argument.</param>
         /// <param name="expectedType">The expected <see cref="Type"/>.</param>
@@ -230,12 +229,13 @@ internal static partial class Ensure
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [StackTraceHidden]
         public static void OfType(
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
             Type? type,
-            Type? expectedType,
+            Type expectedType,
             [CallerArgumentExpression("type")] string? paramName = null)
         {
-            if (!IsAssignableTo(type, expectedType))
+            Ensure.Arg.NotNull(expectedType);
+
+            if (type != null && !expectedType.IsAssignableFrom(type))
             {
                 throw new ArgumentException(
                     $"Argument '{paramName}' is of type '{type}' but expected to be of type '{expectedType}'.",
@@ -253,34 +253,77 @@ internal static partial class Ensure
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [StackTraceHidden]
         public static void OfType<TExpected>(
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
             Type? type,
             [CallerArgumentExpression("type")] string? paramName = null)
         {
             OfType(type, typeof(TExpected), paramName);
         }
 
+        /// <summary>
+        /// Ensures that the type argument is of the expected type. Supports testing for
+        /// open generic types.
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> argument.</param>
+        /// <param name="expectedType">The expected <see cref="Type"/>.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfGenericType(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+            Type? type,
+            Type expectedType,
+            [CallerArgumentExpression("type")] string? paramName = null)
+        {
+            Ensure.Arg.NotNull(expectedType);
+
+            if (type != null && !IsAssignableTo(type, expectedType))
+            {
+                throw new ArgumentException(
+                    $"Argument '{paramName}' is of type '{type}' but expected to be of type '{expectedType}'.",
+                    paramName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the type argument is of the expected type.  Supports testing for
+        /// open generic types.
+        /// </summary>
+        /// <typeparam name="TExpected">The expected <see cref="Type"/>.</typeparam>
+        /// <param name="type">The <see cref="Type"/> argument.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfGenericType<TExpected>(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+            Type? type,
+            [CallerArgumentExpression("type")] string? paramName = null)
+        {
+            OfGenericType(type, typeof(TExpected), paramName);
+        }
+
         [StackTraceHidden]
         private static bool IsAssignableTo(
             [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
             Type? givenType,
-            Type? genericType)
+            Type expectedType)
         {
-            if (givenType == null || genericType == null)
+            if (givenType == null || expectedType == null)
             {
                 return false;
             }
 
-            if (genericType.GetTypeInfo()
+            if (expectedType.GetTypeInfo()
                            .IsAssignableFrom(givenType.GetTypeInfo()))
             {
                 return true;
             }
 
-            return givenType == genericType
-                   || MapsToGenericTypeDefinition(givenType, genericType)
-                   || HasInterfaceThatMapsToGenericTypeDefinition(givenType, genericType)
-                   || IsAssignableTo(givenType.GetTypeInfo().BaseType, genericType);
+            return givenType == expectedType
+                   || MapsToGenericTypeDefinition(givenType, expectedType)
+                   || HasInterfaceThatMapsToGenericTypeDefinition(givenType, expectedType)
+                   || IsAssignableTo(givenType.GetTypeInfo().BaseType, expectedType);
         }
 
         [StackTraceHidden]
