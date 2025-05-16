@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions;
 using Xunit;
+using static AppCoreNet.TestContracts;
 
 namespace AppCoreNet.Reflection;
 

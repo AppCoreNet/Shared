@@ -4,6 +4,7 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
+using static AppCoreNet.TestContracts;
 
 namespace AppCoreNet;
 
