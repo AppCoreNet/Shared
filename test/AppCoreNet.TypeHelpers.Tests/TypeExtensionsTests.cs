@@ -20,11 +20,28 @@ public class TypeExtensionsTests
     }
 
     [Fact]
+    public void GetDisplayNameNestedSimpleTypeFormatsName()
+    {
+        typeof(System.Environment.SpecialFolder).GetDisplayName()
+                                                .Should()
+                                                .Be("System.Environment.SpecialFolder");
+    }
+
+    [Fact]
+    public void GetDisplayNameNestedSimpleGenericTypeFormatsName()
+    {
+        typeof(System.Collections.Generic.List<string>).GetDisplayName()
+                                                       .Should()
+                                                       .Be("System.Collections.Generic.List<System.String>");
+    }
+
+
+    [Fact]
     public void GetDisplayNameNestedTypeFormatsName()
     {
         typeof(TypeWithNestedType.NestedType).GetDisplayName()
                                              .Should()
-                                             .Be("AppCoreNet.TypeWithNestedType.NestedType");
+                                             .Be("AppCoreNet.TestContracts.TypeWithNestedType.NestedType");
     }
 
     [Fact]
@@ -32,7 +49,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<,>.NestedType).GetDisplayName()
                                          .Should()
-                                         .Be("AppCoreNet.GenericType<T1,T2>.NestedType");
+                                         .Be("AppCoreNet.TestContracts.GenericType<T1,T2>.NestedType");
     }
 
     [Fact]
@@ -40,7 +57,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<string, char>).GetDisplayName()
                                          .Should()
-                                         .Be("AppCoreNet.GenericType<System.String,System.Char>");
+                                         .Be("AppCoreNet.TestContracts.GenericType<System.String,System.Char>");
     }
 
     [Fact]
@@ -48,7 +65,7 @@ public class TypeExtensionsTests
     {
         typeof(GenericType<,>).GetDisplayName()
                               .Should()
-                              .Be("AppCoreNet.GenericType<T1,T2>");
+                              .Be("AppCoreNet.TestContracts.GenericType<T1,T2>");
     }
 
     [Fact]

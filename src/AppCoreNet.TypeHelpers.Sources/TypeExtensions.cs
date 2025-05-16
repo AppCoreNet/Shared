@@ -33,50 +33,69 @@ internal static class TypeExtensions
 
     private static void BuildDisplayName(StringBuilder builder, Type type)
     {
-        void BuildTypeArguments(StringBuilder sb, Type[] typeArguments)
+        if (type.IsGenericParameter)
         {
-            if (typeArguments.Length > 0)
-            {
-                builder.Append("<");
-                for (int i = 0; i < typeArguments.Length; i++)
-                {
-                    Type typeArgument = typeArguments[i];
-                    BuildDisplayName(sb, typeArgument);
-                    if (i + 1 < typeArguments.Length)
-                        sb.Append(',');
-                }
-
-                builder.Append(">");
-            }
+            builder.Append(type.Name);
+            return;
         }
 
-        void BuildTypeName(StringBuilder sb, Type displayedType)
-        {
-            if (displayedType.IsGenericType && displayedType.Name.Contains("`"))
-            {
-                string typeName = displayedType.Name.Substring(0, displayedType.Name.Length - 2);
-                sb.Append(typeName);
-                BuildTypeArguments(builder, displayedType.GetGenericArguments());
-            }
-            else
-            {
-                sb.Append(displayedType.Name);
-            }
-        }
-
-        if (!type.IsGenericParameter)
+        if (type.Namespace != null)
         {
             builder.Append(type.Namespace);
             builder.Append(".");
         }
 
-        if (type.IsNested && !type.IsGenericParameter)
+        BuildNestedName(builder, type);
+    }
+
+    private static void BuildNestedName(StringBuilder builder, Type type)
+    {
+        var nestedTypes = new List<Type>();
+        Type current = type;
+
+        // Collect all declaring types
+        while (current != null)
         {
-            BuildTypeName(builder, type.DeclaringType!);
-            builder.Append(".");
+            nestedTypes.Insert(0, current);
+            current = current.DeclaringType!;
         }
 
-        BuildTypeName(builder, type);
+        // Generic args
+        Type[] allGenericArgs = type.IsGenericType ? type.GetGenericArguments() : Type.EmptyTypes;
+        int argIndex = 0;
+
+        for (int i = 0; i < nestedTypes.Count; i++)
+        {
+            if (i > 0)
+                builder.Append(".");
+
+            Type nestedType = nestedTypes[i];
+            string name = nestedType.Name;
+            int backtickIndex = name.IndexOf('`');
+            int genericArgCount = 0;
+
+            if (backtickIndex >= 0)
+            {
+                genericArgCount = int.Parse(name.Substring(backtickIndex + 1));
+                name = name.Substring(0, backtickIndex);
+            }
+
+            builder.Append(name);
+
+            if (genericArgCount > 0)
+            {
+                builder.Append("<");
+                for (int j = 0; j < genericArgCount; j++)
+                {
+                    if (j > 0)
+                        builder.Append(",");
+
+                    BuildDisplayName(builder, allGenericArgs[argIndex]);
+                    argIndex++;
+                }
+                builder.Append(">");
+            }
+        }
     }
 
     /// <summary>
