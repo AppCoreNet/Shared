@@ -260,6 +260,42 @@ internal static partial class Ensure
         }
 
         /// <summary>
+        /// Ensures that the argument is of the expected type.
+        /// </summary>
+        /// <param name="value">The argument.</param>
+        /// <param name="expectedType">The expected <see cref="Type"/>.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfType(
+            object? value,
+            Type expectedType,
+            [CallerArgumentExpression("value")] string? paramName = null)
+        {
+            if (value != null)
+            {
+                OfType(value.GetType(), expectedType, paramName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the argument is of the expected type.
+        /// </summary>
+        /// <typeparam name="TExpected">The expected <see cref="Type"/>.</typeparam>
+        /// <param name="value">The argument.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfType<TExpected>(
+            object? value,
+            [CallerArgumentExpression("value")] string? paramName = null)
+        {
+            OfType(value, typeof(TExpected), paramName);
+        }
+
+        /// <summary>
         /// Ensures that the type argument is of the expected type. Supports testing for
         /// open generic types.
         /// </summary>
@@ -301,6 +337,46 @@ internal static partial class Ensure
             [CallerArgumentExpression("type")] string? paramName = null)
         {
             OfGenericType(type, typeof(TExpected), paramName);
+        }
+
+        /// <summary>
+        /// Ensures that the argument is of the expected type. Supports testing for
+        /// open generic types.
+        /// </summary>
+        /// <param name="value">The argument.</param>
+        /// <param name="expectedType">The expected <see cref="Type"/>.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfGenericType(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+            object? value,
+            Type expectedType,
+            [CallerArgumentExpression("value")] string? paramName = null)
+        {
+            if (value != null)
+            {
+                OfGenericType(value.GetType(), expectedType, paramName);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the argument is of the expected type.  Supports testing for
+        /// open generic types.
+        /// </summary>
+        /// <typeparam name="TExpected">The expected <see cref="Type"/>.</typeparam>
+        /// <param name="value">The argument.</param>
+        /// <param name="paramName">The parameter name.</param>
+        /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [StackTraceHidden]
+        public static void OfGenericType<TExpected>(
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+            object? value,
+            [CallerArgumentExpression("value")] string? paramName = null)
+        {
+            OfGenericType(value, typeof(TExpected), paramName);
         }
 
         [StackTraceHidden]
