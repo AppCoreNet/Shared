@@ -35,7 +35,6 @@ public class TypeExtensionsTests
                                                        .Be("System.Collections.Generic.List<System.String>");
     }
 
-
     [Fact]
     public void GetDisplayNameNestedTypeFormatsName()
     {
