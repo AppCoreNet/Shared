@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Remove="xunit.runner.visualstudio" />
+    <PackageReference Remove="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 
   <!--
