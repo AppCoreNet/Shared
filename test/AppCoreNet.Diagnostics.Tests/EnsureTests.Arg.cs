@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
 
@@ -232,6 +233,7 @@ public partial class EnsureTests
         [InlineData(typeof(IEnumerable<>))]
         [InlineData(typeof(ExpectedArgBaseType))]
         [InlineData(typeof(ExpectedArgType))]
+        [RequiresUnreferencedCode("This test requires types to be preserved for reflection.")]
         public void OfGenericTypeDoesNotThrowForRelatedValue(Type expectedType)
         {
             object value = new ExpectedArgType();
@@ -245,6 +247,7 @@ public partial class EnsureTests
         }
 
         [Fact]
+        [RequiresUnreferencedCode("This test requires types to be preserved for reflection.")]
         public void OfGenericTypeDoesNotThrowForNullValue()
         {
             Ensure.Arg.OfGenericType((object?)null, typeof(string));
@@ -261,6 +264,7 @@ public partial class EnsureTests
         }
 
         [Fact]
+        [RequiresUnreferencedCode("This test requires types to be preserved for reflection.")]
         public void OfGenericTypeThrowsForUnrelatedValue()
         {
             var exception = Assert.Throws<ArgumentException>(
