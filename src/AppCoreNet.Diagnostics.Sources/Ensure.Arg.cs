@@ -349,8 +349,8 @@ internal static partial class Ensure
         /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [StackTraceHidden]
+        [RequiresUnreferencedCode("Requires unreferenced code, use the overload with Type parameter.")]
         public static void OfGenericType(
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
             object? value,
             Type expectedType,
             [CallerArgumentExpression("value")] string? paramName = null)
@@ -371,8 +371,8 @@ internal static partial class Ensure
         /// <exception cref="ArgumentException">The type argument is not of the expected type.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [StackTraceHidden]
+        [RequiresUnreferencedCode("Requires unreferenced code, use the overload with Type parameter.")]
         public static void OfGenericType<TExpected>(
-            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
             object? value,
             [CallerArgumentExpression("value")] string? paramName = null)
         {
