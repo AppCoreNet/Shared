@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Diagnostics.JetB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Attributes.CompileTest", "test\AppCoreNet.Attributes.CompileTest\AppCoreNet.Attributes.CompileTest.csproj", "{018383FB-2DAF-4966-BD14-5CEB84A04D58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCoreNet.Diagnostics.JetBrains.Annotations.Sources.CompileTest", "test\AppCoreNet.Diagnostics.JetBrains.Annotations.Sources.CompileTest\AppCoreNet.Diagnostics.JetBrains.Annotations.Sources.CompileTest.csproj", "{26E49BBB-D15B-47AF-B46C-B4B6F4289375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{018383FB-2DAF-4966-BD14-5CEB84A04D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E49BBB-D15B-47AF-B46C-B4B6F4289375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E49BBB-D15B-47AF-B46C-B4B6F4289375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E49BBB-D15B-47AF-B46C-B4B6F4289375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E49BBB-D15B-47AF-B46C-B4B6F4289375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,5 +113,6 @@ Global
 		{46E81671-864B-4A8F-B94F-A2FCB1AC0DE6} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 		{53117AEF-4E23-48E3-BF3B-4E5398E384F9} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 		{018383FB-2DAF-4966-BD14-5CEB84A04D58} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
+		{26E49BBB-D15B-47AF-B46C-B4B6F4289375} = {953534A6-E8BA-4409-BF0D-F7BF27819118}
 	EndGlobalSection
 EndGlobal
