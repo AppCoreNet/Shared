@@ -1,0 +1,43 @@
+﻿<Project>
+
+  <!--
+   The SDK is imported manually to also inject the build files from AppCoreNet.Attributes.Sources
+   like it's done when referencing via NuGet.
+   -->
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="..\..\src\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.props" />
+  <Import Project="..\..\src\AppCoreNet.Diagnostics.Sources\build\AppCoreNet.Diagnostics.Sources.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Unix'">$(TargetFrameworks);net472</TargetFrameworks>
+    <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
+    <DefineConstants>$(DefineConstants);APPCORENET_SHARED_SOURCES_TESTS</DefineConstants>
+    <IsTestProject>false</IsTestProject>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile
+      LinkBase="AppCoreNet.Attributes"
+      Include="..\..\src\AppCoreNet.Attributes.Sources\**\*.cs"
+      Exclude="..\..\src\AppCoreNet.Attributes.Sources\obj\**\*.cs" />
+    <Compile
+      LinkBase="AppCoreNet.Diagnostics"
+      Include="..\..\src\AppCoreNet.Diagnostics.Sources\**\*.cs"
+      Exclude="..\..\src\AppCoreNet.Diagnostics.Sources\obj\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations.Sources" />
+  </ItemGroup>
+
+  <!--
+   The SDK is imported manually to also inject the build files from AppCoreNet.Attributes.Sources
+   like it's done when referencing via NuGet.
+   -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="..\..\src\AppCoreNet.Attributes.Sources\build\AppCoreNet.Attributes.Sources.targets" />
+  <Import Project="..\..\src\AppCoreNet.Diagnostics.Sources\build\AppCoreNet.Diagnostics.Sources.targets" />
+
+</Project>
