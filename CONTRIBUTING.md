@@ -41,17 +41,12 @@ If there is'nt any issue for the code you are willing to contribute please creat
   To submit changes to the code, create a [pull request](https://help.github.com/articles/using-pull-requests/)
   targeting the branch where the issue should be resolved.
 
-  For new features, the `dev` branch should be targeted.
-  For bug fixes, the `hotfixes/<version>` branch should be the target of the pull request.
-  See [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
-  for a guide on how our branching model works.
-
   Pull requests need to pass the CI build and should include unit tests to verify the work.
 
 - **Code review**
 
   Before the code is integrated, there will be a review by any of the project members. Some iteration may
-  take place requiring updates to the pull reuqest. For example, adding tests, fixing some errors, ...
+  take place requiring updates to the pull request. For example, adding tests, fixing some errors, ...
 
 - **Pull request acceptance**
 
@@ -75,25 +70,16 @@ are calculated from the branching history of the repository, using [GitVersion](
 
 ### Developer Environment
 
-- Visual Studio 2022
-- .NET SDK 9.0.203
-- PowerShell 7+
+- Visual Studio 2026 or JetBrains Rider
+- .NET SDK 10.0
 
 ### Build / Test
 
-Project repositories generally have a `build.ps1` script. This PowerShell script can be used to build the code,
-execute tests and create packages.
-
-The build script accepts the argument `--target` which specifies the action to execute. The most important targets are:
-
-- **build** - This is the default target, it will restore dependencies and build all sources (except tests).
-- **test** - Builds the tests and executes them. Test results and code coverage reports can be found in the `artifacts`
-  directory.
-- **publish** - Creates packages and publishes them to the `artifacts` directory.
+Build either from the command line using `dotnet build` or using the IDE of your choice.
 
 Unit tests are written in XUnit using FluentAssertions and NSubstitute. **Please note that, code contributions should include tests.**
 
-Furthermore **everything should build and test with no warnings or errors**.
+Furthermore, **everything should build and test with no warnings or errors**.
 
 ### Coding standards
 
