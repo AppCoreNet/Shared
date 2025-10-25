@@ -33,7 +33,7 @@ Please refer to the [Contribution guide](CONTRIBUTING.md).
 
 ## AppCoreNet.Attributes.Sources
 
-This packages includes sources for attributes which are defined in newer .NET versions (>= .NET Core 3.0) such as
+This package includes sources for attributes which are defined in newer .NET versions (>= .NET Core 3.0) such as
 attributes required for nullable reference types, attributes required for the `required` keyword and others.
 
 If you are using the `Polyfill` or `Nullable` package these attributes are automatically disabled. You can control the

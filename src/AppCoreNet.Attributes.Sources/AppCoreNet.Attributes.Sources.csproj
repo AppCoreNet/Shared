@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>AppCoreNet.Attributes</RootNamespace>
     <PackageDescription>Provides poly fills for .NET attributes.</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <DefineConstants>$(DefineConstants);APPCORENET_ATTRIBUTES_ENABLED;APPCORENET_NULLABLE_ATTRIBUTES_ENABLED;APPCORENET_TRIMMING_ATTRIBUTES_ENABLED</DefineConstants>
   </PropertyGroup>
 
@@ -11,6 +12,10 @@
     <Content Include="**\*.cs" Exclude="obj\**\*.cs" PackagePath="contentFiles\cs\any\AppCoreNet.Attributes" BuildAction="Compile" Pack="true" />
     <Content Include="build\**\*" PackagePath="build" Pack="true" />
     <Content Include="buildTransitive\**\*" PackagePath="buildTransitive" Pack="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

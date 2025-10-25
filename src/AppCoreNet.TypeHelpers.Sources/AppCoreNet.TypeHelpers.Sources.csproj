@@ -12,6 +12,7 @@
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>AppCoreNet</RootNamespace>
     <PackageDescription>Provides extensions for Type, TypeInfo and Assembly.</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +33,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppCoreNet.Diagnostics.Sources\AppCoreNet.Diagnostics.Sources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <!--

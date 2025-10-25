@@ -11,6 +11,7 @@
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <RootNamespace>AppCoreNet.Diagnostics</RootNamespace>
     <PackageDescription>Provides static classes to ensure program contracts.</PackageDescription>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +29,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppCoreNet.Attributes.Sources\AppCoreNet.Attributes.Sources.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <!--
