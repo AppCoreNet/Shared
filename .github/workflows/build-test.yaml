@@ -51,12 +51,12 @@ jobs:
 #
       - name: Upload artifacts
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: artifacts
           path: ./artifacts
       - name: Upload test results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-${{ matrix.os }}
           path: ./test-results
@@ -77,7 +77,7 @@ jobs:
             9.0.x
           global-json-file: global.json
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: artifacts
           path: ./artifacts
@@ -101,7 +101,7 @@ jobs:
             9.0.x
           global-json-file: global.json
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: artifacts
           path: ./artifacts
