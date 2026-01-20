@@ -72,10 +72,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
-          global-json-file: global.json
+          dotnet-version: 10.0.x
       - name: Download artifacts
         uses: actions/download-artifact@v7
         with:
@@ -96,10 +93,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
-          global-json-file: global.json
+          dotnet-version: 10.0.x
       - name: Download artifacts
         uses: actions/download-artifact@v7
         with:
